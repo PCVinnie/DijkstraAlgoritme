@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "limits.h"
 
+/*
+
 // De hoeveelheid paden in een diagram
 #define V 9
 
@@ -46,7 +48,7 @@ void getShortestPath(int graph[V][V], int src) {
 
 int main()
 {
-	/* Let us create the example graph discussed above */
+
 	int graph[V][V] = { { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
 	{ 4, 0, 8, 0, 0, 0, 0, 11, 0 },
 	{ 0, 8, 0, 7, 0, 4, 0, 0, 2 },
@@ -63,4 +65,5 @@ int main()
 	return 0;
 }
 
+*/
 

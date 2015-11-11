@@ -22,7 +22,7 @@ void removeLoopings() {
 /*
 	Haalt de parallelle verbindingen weg door het te vervangen met de hoogste waarden.
 */
-int removeParallel() {
+void removeParallel() {
 	
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
@@ -44,9 +44,27 @@ int distance(int dist[V][V]) {
 
 	int total = 0;
 
-	total = dist[0][0] + dist[0][0];
+	for (int row = 0; row < V; row++) {
+		for (int column = 0; column < V; column++) {
+			total = dist[0][0] + dist[0][0];
+		}
+	}
 
 	return total;
+
+}
+
+/*
+	Print de uitkomst in terminal.
+*/
+void printTerminal(int dist[V][V]) {
+
+	printf("Het kortste pad is: \n");
+	for (int row = 0; row < V; row++) {
+		for (int column = 0; column < V; column++) {
+			printf("" + dist[row][column]);
+		}
+	}
 
 }
 
@@ -67,21 +85,13 @@ void dijkstra(int vertices[V][V]) {
 	// Berekent de kortste afstand
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			dist[V][V] = distance(vertices);
+			//dist[V][V] = distance(vertices);
+
+			//dist[row+1][column] = dist[row][column] + vertices[row][column];
 		}
 	}
 
-	
-	for (int row = 0; row < V; row++) {
-
-		int u = distance(dist, vertices);
-
-		for (int column = 0; column < V; column++) {
-
-		}
-
-	}
-
+	printTerminal(dist);
 
 }
 
@@ -99,4 +109,6 @@ int main() {
 					   };
 
 	dijkstra(matrix);
+
+	getchar();
 }
