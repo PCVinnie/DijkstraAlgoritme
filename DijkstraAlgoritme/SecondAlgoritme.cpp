@@ -1,14 +1,24 @@
 #include "stdafx.h"
+#include <iostream>
 #include "limits.h"
+#include "SecondAlgoritme.h"
 
-#define V 5
+using namespace std;
 
-int vertices[V][V];
+SecondAlgoritme::SecondAlgoritme() { };
+
+SecondAlgoritme::SecondAlgoritme(int vertices[V][V]) { 
+
+	this->vertices[V][V] = vertices[V][V];
+
+};
+
+SecondAlgoritme::~SecondAlgoritme() { };
 
 /*
 	Haalt de loopings weg door het te vervangen met een 0.
 */
-void removeLoopings() {
+void SecondAlgoritme::removeLoopings() {
 
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
@@ -22,7 +32,7 @@ void removeLoopings() {
 /*
 	Haalt de parallelle verbindingen weg door het te vervangen met de hoogste waarden.
 */
-void removeParallel() {
+void SecondAlgoritme::removeParallel() {
 	
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
@@ -40,7 +50,7 @@ void removeParallel() {
 /*
 	Berekent de kortste afstand.
 */
-int distance(int dist[V][V]) {
+int SecondAlgoritme::distance(int dist[V][V]) {
 
 	int total = 0;
 
@@ -57,58 +67,47 @@ int distance(int dist[V][V]) {
 /*
 	Print de uitkomst in terminal.
 */
-void printTerminal(int dist[V][V]) {
+void SecondAlgoritme::printTerminal(int dist[V][V]) {
 
-	printf("Het kortste pad is: \n");
+	cout << "Het kortste pad is: \n" << endl;
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			printf("" + dist[row][column]);
+			printf(">" + dist[row][column]);
 		}
 	}
 
 }
 
-void dijkstra(int vertices[V][V]) {
+void SecondAlgoritme::dijkstra() {
 
 	removeLoopings();
+	printTerminal(vertices);
+
 	removeParallel();
+	printTerminal(vertices);
 
 	int dist[V][V];
 
-	// Vult de matrix met 0en
+	// Vult de matrix met -1
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			dist[row][column] = 0;
+			dist[row][column] = -1;
 		}
 	}
+	
+	// Geeft de eerste positie van de matrix een 0
+	dist[0][0] = 0;
 	
 	// Berekent de kortste afstand
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
 			//dist[V][V] = distance(vertices);
-
-			//dist[row+1][column] = dist[row][column] + vertices[row][column];
+			if (dist[row][column] != -1) {
+				dist[row][column] = dist[row][column] + vertices[row][column];
+			}
 		}
 	}
 
 	printTerminal(dist);
 
-}
-
-int main() {
-
-	/*
-		a -> a (Looping)
-		d -> a (Parallel)
-	*/
-	int matrix[V][V] = { { 1, 1, 0, 1, 0 },
-						 { 0, 0, 0, 1, 0 },
-						 { 1, 0, 0, 0, 0 },
-						 { 1, 0, 0, 0, 1 },
-						 { 0, 0, 0, 0, 0 },
-					   };
-
-	dijkstra(matrix);
-
-	getchar();
 }

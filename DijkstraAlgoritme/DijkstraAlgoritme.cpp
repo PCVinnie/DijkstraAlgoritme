@@ -1,15 +1,14 @@
-// DijkstraAlgoritme.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include "limits.h"
+#include "DijkstraAlgoritme.h"
+
+DijkstraAlgoritme::DijkstraAlgoritme() { }
+
+DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
 /*
 
-// De hoeveelheid paden in een diagram
-#define V 9
-
-int minDistance(int dist[], bool sptSet[]) {
+int DijkstraAlgoritme::minDistance(int dist[], bool sptSet[]) {
 
 	int min = INT_MAX, min_index;
 
@@ -21,7 +20,7 @@ int minDistance(int dist[], bool sptSet[]) {
 	return min_index;
 }
 
-void getShortestPath(int graph[V][V], int src) {
+void DijkstraAlgoritme::getShortestPath(int graph[V][V], int src) {
 
 	int distance[V]; // Geeft een output van de kortste pad.
 	bool sptSet[V];
@@ -45,25 +44,4 @@ void getShortestPath(int graph[V][V], int src) {
 	}
 
 }
-
-int main()
-{
-
-	int graph[V][V] = { { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
-	{ 4, 0, 8, 0, 0, 0, 0, 11, 0 },
-	{ 0, 8, 0, 7, 0, 4, 0, 0, 2 },
-	{ 0, 0, 7, 0, 9, 14, 0, 0, 0 },
-	{ 0, 0, 0, 9, 0, 10, 0, 0, 0 },
-	{ 0, 0, 4, 0, 10, 0, 2, 0, 0 },
-	{ 0, 0, 0, 14, 0, 2, 0, 1, 6 },
-	{ 8, 11, 0, 0, 0, 0, 1, 0, 7 },
-	{ 0, 0, 2, 0, 0, 0, 6, 7, 0 }
-	};
-
-	getShortestPath(graph, 0);
-	
-	return 0;
-}
-
 */
-
