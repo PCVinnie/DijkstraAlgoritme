@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
-#include "DijkstraAlgoritme.h"
+#include "FirstAlgoritme.h"
 #include "SecondAlgoritme.h"
 
 #define V 9
@@ -22,7 +22,7 @@ void firstExample() {
 						{ 0, 0, 2, 0, 0, 0, 6, 7, 0 }
 					  };
 
-	DijkstraAlgoritme().getShortestPath(graph, 0);
+	FirstAlgoritme().getShortestPath(graph, 0);
 
 }
 
