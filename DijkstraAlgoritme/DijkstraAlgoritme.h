@@ -13,8 +13,10 @@ public:
 	~DijkstraAlgoritme();
 
 	//Methods
-	//int minDistance(int[], bool[]);
-	//void getShortestPath(int[V][V], int);
+	int minDistance(int[], bool[]);
+	void getShortestPath(int[V][V], int);
+	void printInput(int[V][V]);
+	void printOutput(int[]);
 
 };
 

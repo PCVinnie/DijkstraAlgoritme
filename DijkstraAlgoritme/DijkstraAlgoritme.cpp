@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "limits.h"
+#include <iostream>
 #include "DijkstraAlgoritme.h"
 
 DijkstraAlgoritme::DijkstraAlgoritme() { }
 
 DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
-/*
 
 int DijkstraAlgoritme::minDistance(int dist[], bool sptSet[]) {
 
@@ -20,10 +20,35 @@ int DijkstraAlgoritme::minDistance(int dist[], bool sptSet[]) {
 	return min_index;
 }
 
+void DijkstraAlgoritme::printInput(int graph[V][V]) {
+
+	std::cout << "Invoer:" << std::endl;
+	for (int row = 0; row < V; row++) {
+		for (int column = 0; column < V; column++) {
+			std::cout << graph[row][column];
+		}
+		std::cout << "" << std::endl;
+	}
+	std::cout << "" << std::endl;
+
+}
+
+void DijkstraAlgoritme::printOutput(int distance[]) {
+
+	std::cout << "Output:" << std::endl;
+	for (int i = 0; i < V; i++) {
+		std::cout << distance[i] << std::endl;
+	}
+	std::cout << "" << std::endl;
+
+}
+
 void DijkstraAlgoritme::getShortestPath(int graph[V][V], int src) {
 
 	int distance[V]; // Geeft een output van de kortste pad.
 	bool sptSet[V];
+
+	printInput(graph);
 
 	// Initialiseerd alle afstanden als oneindig en zet stpSet[] op false.
 	for (int i = 0; i < V; i++) {
@@ -43,5 +68,6 @@ void DijkstraAlgoritme::getShortestPath(int graph[V][V], int src) {
 		}
 	}
 
+	printOutput(distance);
+
 }
-*/

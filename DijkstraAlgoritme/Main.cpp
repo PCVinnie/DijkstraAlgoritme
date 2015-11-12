@@ -22,7 +22,7 @@ void firstExample() {
 						{ 0, 0, 2, 0, 0, 0, 6, 7, 0 }
 					  };
 
-	//DijkstraAlgoritme().getShortestPath(graph, 0);
+	DijkstraAlgoritme().getShortestPath(graph, 0);
 
 }
 
