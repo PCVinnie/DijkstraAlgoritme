@@ -1,14 +1,14 @@
 #ifndef SecondAlgoritme_H
 #define SecondAlgoritme_H
 
-#define V 9
+#define V 5
 
 class SecondAlgoritme {
 
 public:
 	//Constructor
 	SecondAlgoritme();
-	SecondAlgoritme(int[V][V]);
+	//SecondAlgoritme(int[V][V]);
 
 	//Destructor
 	~SecondAlgoritme();
@@ -18,7 +18,7 @@ public:
 	void removeParallel();
 	int distance(int[V][V]);
 	void printTerminal(int[V][V]);
-	void dijkstra();
+	void dijkstra(int [V][V]);
 
 private:
 	//Fields

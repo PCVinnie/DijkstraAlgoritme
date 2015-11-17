@@ -3,15 +3,15 @@
 #include "limits.h"
 #include "SecondAlgoritme.h"
 
-using namespace std;
-
 SecondAlgoritme::SecondAlgoritme() { };
 
+/*
 SecondAlgoritme::SecondAlgoritme(int vertices[V][V]) { 
 
 	this->vertices[V][V] = vertices[V][V];
 
 };
+*/
 
 SecondAlgoritme::~SecondAlgoritme() { };
 
@@ -69,41 +69,45 @@ int SecondAlgoritme::distance(int dist[V][V]) {
 */
 void SecondAlgoritme::printTerminal(int dist[V][V]) {
 
-	cout << "Het kortste pad is: \n" << endl;
+	std::cout << "Output:" << std::endl;
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			printf(">" + dist[row][column]);
+			std::cout << dist[row][column] << ",";
 		}
+		std::cout << "" << std::endl;
 	}
+	std::cout << "" << std::endl;
 
 }
 
-void SecondAlgoritme::dijkstra() {
+void SecondAlgoritme::dijkstra(int vertices[V][V]) {
 
-	removeLoopings();
-	printTerminal(vertices);
+	//removeLoopings();
+	//printTerminal(vertices);
 
-	removeParallel();
-	printTerminal(vertices);
+	//removeParallel();
+	//printTerminal(vertices);
 
 	int dist[V][V];
 
-	// Vult de matrix met -1
+	// Vult de matrix met 0
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			dist[row][column] = -1;
+			dist[row][column] = 0;
 		}
 	}
 	
-	// Geeft de eerste positie van de matrix een 0
-	dist[0][0] = 0;
-	
 	// Berekent de kortste afstand
-	for (int row = 0; row < V; row++) {
-		for (int column = 0; column < V; column++) {
-			//dist[V][V] = distance(vertices);
-			if (dist[row][column] != -1) {
-				dist[row][column] = dist[row][column] + vertices[row][column];
+	for (int row = 1; row < V; row++) {
+		for (int column = 1; column < V; column++) {
+
+			if (vertices[row-1][column-1] == vertices[column-1][row-1]) {
+
+				for (int row2 = 1; row2 < V; row2++) {
+
+					dist[row2][column] = dist[row][column - 1] + vertices[row][column];
+
+				}
 			}
 		}
 	}
