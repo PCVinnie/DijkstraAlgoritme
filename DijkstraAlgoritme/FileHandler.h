@@ -11,7 +11,6 @@ public:
 	~FileHandler();
 
 	//Methods
-	void writeTxtFile(int**, int);
 	int** openTxtFile();
 
 };

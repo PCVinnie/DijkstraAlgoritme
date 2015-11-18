@@ -30,30 +30,12 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return elems;
 }
 
-void FileHandler::writeTxtFile(int** graph, int size) {
-	std::ofstream file;
-	file.open("graph.txt", std::ofstream::app); // std::ofstream::app voorkomt dat de inhoud wordt overschreven.
-	if (file.is_open()) {
-		for (int row = 0; row < size; row++) {
-			for (int column = 0; column < size; column++) {
-				file << graph[column][row] << " ";
-			}
-			file << std::endl;
-		}
-		file << " " << std::endl;
-		file.close();
-	}
-	else {
-		file.close();
-		std::cout << "Er is een fout opgetreden bij het openen of lezen van het bestand.";
-	}
-}
-
 int** FileHandler::openTxtFile() {
 
 	std::string line;
 	int column = 0;
-	int tmp = 0;
+	int size = 0;
+	bool asSize = true;
 	bool asLine = false;
 
 	int** graph = new int*[9];
@@ -67,14 +49,18 @@ int** FileHandler::openTxtFile() {
 		while (getline(file, line)) {
 
 			// Controleert de grootte van de graph.
-			tmp = atoi(line.c_str());
+			if (asSize == true) {
+				size = atoi(line.c_str());
+				asSize = false;
+			}
 
+			// Haalt de graph op en schrijft dit weg naar een tweedimensionale array.
 			if (asLine == true) {
 				for (int row = 0; row < split(line, ' ').size(); row++) {
 					graph[column][row] = atoi(split(line, ' ').at(row).c_str());
 				}
 
-				if (column < 9) {
+				if (column < size) {
 					column++;
 				}
 				else {
