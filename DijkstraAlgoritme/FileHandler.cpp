@@ -7,13 +7,9 @@
 #include <vector>
 #include "FileHandler.h"
 
-FileHandler::FileHandler() {
+FileHandler::FileHandler() { }
 
-}
-
-FileHandler::~FileHandler() {
-
-}
+FileHandler::~FileHandler() { }
 
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
@@ -30,7 +26,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return elems;
 }
 
-int** FileHandler::openTxtFile() {
+int** FileHandler::openTxtFile(std::string filename) {
 
 	std::string line;
 	int column = 0;
@@ -44,7 +40,7 @@ int** FileHandler::openTxtFile() {
 	}
 
 	std::ifstream file;
-	file.open("graph.txt");
+	file.open(filename);
 	if (file.is_open()) {
 		while (getline(file, line)) {
 

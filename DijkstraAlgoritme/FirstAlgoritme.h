@@ -1,6 +1,8 @@
 #ifndef DijkstraAlgoritme_H
 #define DijkstraAlgoritme_H
 
+#include <queue>
+
 #define V 9
 
 class FirstAlgoritme {
@@ -14,10 +16,10 @@ public:
 
 	//Methods
 	int minDistance(int[], bool[]);
-	void getShortestPath(int**, int);
-	//void getShortestPath(int[V][V], int);
-	//void printInput(int[V][V]);
-	void printInput(int**);
+	void getShortestPathPriorityQueue(std::priority_queue<std::pair<int, int>>, int);
+	void getShortestPathGraph(int**, int);
+	void printPriorityQueueInput(std::priority_queue<std::pair<int, int>> pq);
+	void printGraphInput(int**);
 	void printOutput(int[]);
 
 };

@@ -148,6 +148,7 @@
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="FirstAlgoritme.h" />
     <ClInclude Include="SecondAlgoritme.h" />
+    <ClInclude Include="ThirdAlgoritme.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="FirstAlgoritme.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SecondAlgoritme.cpp" />
+    <ClCompile Include="ThirdAlgoritme.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>

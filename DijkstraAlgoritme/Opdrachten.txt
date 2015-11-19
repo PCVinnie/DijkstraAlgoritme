@@ -1,0 +1,12 @@
+
+- het beschreven algoritme van Dijkstra's algoritme met priority queue uittesten (code overnemen)
+
+- opdrachten 25.3 alternatieve implementatie met adjecency matrix
+
+- 25.8 file IO voor een graph
+
+- 25.10 alternatieve uitwerking van Dijkstra's algoritme
+
+- 25.11 alleen het gedeelte uitwerking m.b.t. getShortestPath
+
+- 25.12

@@ -11,7 +11,7 @@ public:
 	~FileHandler();
 
 	//Methods
-	int** openTxtFile();
+	int** openTxtFile(std::string);
 
 };
 
