@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include "DijkstraAlgoritme.h"
-#include "ThirdAlgoritme.h"
 #include "FileHandler.h"
 
 #include <string>
@@ -93,23 +92,6 @@ void graphExample() {
 	DijkstraAlgoritme().getShortestPathGraph(graph_ptr, 0, 0, 0);
 
 }
- 
-void secondExample() {
-
-	/*
-	a -> a (Looping)
-	d -> a (Parallel)
-	*/
-
-	int graph[5][5] = { { 0, 5, 10, 0 },
-					    { 5, 0, 4, 11 },
-						{ 10, 4, 0, 5 },
-						{ 0, 11, 5, 0 },
-					  };
-
-	ThirdAlgoritme().dijkstra(graph);
-
-}
 
 int main() {
 
@@ -144,7 +126,7 @@ int main() {
 			graphExample();
 			break;
 		case 4:
-			secondExample();
+			// Alternatief
 			break;
 		case 5:
 			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0, 0, 0);

@@ -15,6 +15,8 @@ public:
 	~DijkstraAlgoritme();
 
 	//Methods
+	int** removeLoopings(int**);
+	int** removeParallel(int**);
 	int minDistance(int[], bool[]);
 	void getShortestPathPriorityQueue(std::vector<std::pair<int, int>> G[V + 1], int);
 	void getShortestPathGraph(int**, int, int, int);

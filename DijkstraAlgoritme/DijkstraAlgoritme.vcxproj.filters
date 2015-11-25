@@ -27,10 +27,10 @@
     <ClInclude Include="FileHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdAlgoritme.h">
+    <ClInclude Include="DijkstraAlgoritme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DijkstraAlgoritme.h">
+    <ClInclude Include="WeightedGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,9 +42,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdAlgoritme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DijkstraAlgoritme.cpp">

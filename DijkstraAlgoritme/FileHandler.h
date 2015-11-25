@@ -12,7 +12,6 @@ public:
 
 	//Methods
 	int** openTxtFile(std::string);
-	int** openTxtFileFormat(std::string);
 
 };
 

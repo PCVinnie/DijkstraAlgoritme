@@ -9,6 +9,40 @@ DijkstraAlgoritme::DijkstraAlgoritme() { }
 
 DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
+
+// Haalt de loopings weg door het te vervangen met een 0.
+int** DijkstraAlgoritme::removeLoopings(int** vertices) {
+
+	for (int row = 0; row < V; row++) {
+		for (int column = 0; column < V; column++) {
+			if (vertices[row][column] > 0 && row == column) {
+				vertices[row][column] = 0;
+			}
+		}
+	}
+
+	return vertices;
+}
+
+// Haalt de parallelle verbindingen weg door het te vervangen met de hoogste waarden.
+int** DijkstraAlgoritme::removeParallel(int** vertices) {
+
+	for (int row = 0; row < V; row++) {
+		for (int column = 0; column < V; column++) {
+			if (vertices[row][column] > 0) {
+				if (vertices[row][column] > vertices[column][row]) {
+					vertices[column][row] = vertices[row][column];
+				}
+				else {
+					vertices[row][column] = vertices[column][row];
+				}
+			}
+		}
+	}
+
+	return vertices;
+}
+
 int DijkstraAlgoritme::minDistance(int distance[], bool sptSet[]) {
 
 	int min = INT_MAX;
@@ -60,6 +94,10 @@ void DijkstraAlgoritme::printOutput(int distance[]) {
 	std::cout << "" << std::endl;
 
 }
+
+/*
+*	Het beschreven algoritme van Dijkstra's algoritme met priority queue uitwerken
+*/
 
 #define pp std::pair<int,int>
 typedef std::pair<int, int> ii;
@@ -113,12 +151,18 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[V + 1], i
 
 }
 
-void DijkstraAlgoritme::getShortestPathGraph(int** graph, int src, int start, int end) {
+/*
+*	Opdracht: 25.3 alternatieve implementatie met adjecency matrix
+*/
+
+void DijkstraAlgoritme::getShortestPathGraph(int** g, int src, int start, int end) {
 
 	int distance[V]; // Geeft een output van de kortste pad.
 	bool sptSet[V];
 
-	printGraphInput(graph);
+	printGraphInput(g);
+
+	int** graph = removeParallel(removeLoopings(g));
 
 	// Initialiseerd alle afstanden als oneindig en zet stpSet[] op false.
 	for (int i = 0; i < V; i++) {
