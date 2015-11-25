@@ -52,7 +52,10 @@ void FirstAlgoritme::printOutput(int distance[]) {
 
 	std::cout << "Output:" << std::endl;
 	for (int i = 0; i < V; i++) {
-		std::cout << "Node: " << i << " min weight: " << distance[i] << std::endl;
+		if (distance[i] != INT_MAX) 
+			std::cout << "Node: " << i << " min weight: " << distance[i] << std::endl;
+		else 
+			std::cout << "Node: " << i << " min weight: -" << std::endl;
 	}
 	std::cout << "" << std::endl;
 

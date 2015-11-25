@@ -1,5 +1,5 @@
 
-- het beschreven algoritme van Dijkstra's algoritme met priority queue uittesten (code overnemen)
+X het beschreven algoritme van Dijkstra's algoritme met priority queue uittesten (code overnemen)
 
 X opdrachten 25.3 alternatieve implementatie met adjecency matrix
 

@@ -20,50 +20,7 @@ void priorityQueueExample() {
 
 	// make_pair(gewicht, van vertex) 
 	// make_pair(gewicht, naar vertex)
-
-	pq.push(make_pair(4, 0));
-	pq.push(make_pair(4, 1));
-
-	pq.push(make_pair(8, 1));
-	pq.push(make_pair(8, 2));
-
-	pq.push(make_pair(11, 1));
-	pq.push(make_pair(11, 7));
-
-	pq.push(make_pair(7, 2));
-	pq.push(make_pair(7, 3));
-
-	pq.push(make_pair(2, 2));
-	pq.push(make_pair(2, 8));
-
-	pq.push(make_pair(4, 2));
-	pq.push(make_pair(4, 5));
-
-	pq.push(make_pair(9, 3));
-	pq.push(make_pair(9, 4));
-
-	pq.push(make_pair(14, 3));
-	pq.push(make_pair(14, 5));
-
-	pq.push(make_pair(10, 4));
-	pq.push(make_pair(10, 5));
-
-	pq.push(make_pair(2, 5));
-	pq.push(make_pair(2, 6));
-
-	pq.push(make_pair(6, 6));
-	pq.push(make_pair(6, 8));
-
-	pq.push(make_pair(1, 6));
-	pq.push(make_pair(1, 7));
-
-	pq.push(make_pair(7, 8));
-	pq.push(make_pair(7, 7));
-
-	pq.push(make_pair(8, 7));
-	pq.push(make_pair(8, 0));
-
-	*/
+*/
 
 	#define pp std::pair<int,int>
 	std::vector<pair<int, int>> G[V + 1];
@@ -73,6 +30,15 @@ void priorityQueueExample() {
 
 	G[2].push_back(pp(1, 8));
 	G[1].push_back(pp(2, 8));
+
+	G[3].push_back(pp(2, 7));
+	G[2].push_back(pp(3, 7));
+
+	G[4].push_back(pp(3, 9));
+	G[3].push_back(pp(4, 9));
+
+	G[5].push_back(pp(4, 10));
+	G[4].push_back(pp(5, 10));
 
 	FirstAlgoritme().getShortestPathPriorityQueue(G, 0);
 
@@ -156,13 +122,14 @@ int main() {
 
 		cout << "Datastructuren C++ - Vincent Stout" << endl;
 		cout << "---------------------------------" << endl;
-		cout << " Type a value between 1 and 5: " << endl;
-		cout << " 1: Dijkstra priority queue" << endl;
-		cout << " 2: Dijkstra graph (25.3)  " << endl;
-		cout << " 2: Dijkstra example 2         " << endl;
-		cout << " 3: Load graph from file IO (25.8)" << endl;
-		cout << " 4: Load graph from file IO (25.12)" << endl;
-		cout << " 5: Exit program				" << endl;
+		cout << " Type a value between 1 and 7: " << endl;
+		cout << " 1: Dijkstra priority queue template" << endl;
+		cout << " 2: Dijkstra priority queue input" << endl;
+		cout << " 3: Dijkstra graph (25.3)" << endl;
+		cout << " 4: Dijkstra alternative" << endl;
+		cout << " 5: Load graph from file IO (25.8)" << endl;
+		cout << " 6: Load graph from file IO (25.12)" << endl;
+		cout << " 7: Exit program				" << endl;
 		cout << "---------------------------------" << endl;
 		cin >> menuNr;
 
@@ -180,7 +147,7 @@ int main() {
 			secondExample();
 			break;
 		case 5:
-			FirstAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph.txt"), 0);
+			FirstAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0);
 			break;
 		case 6:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
