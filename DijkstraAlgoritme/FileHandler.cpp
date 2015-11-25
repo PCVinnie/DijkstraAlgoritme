@@ -83,6 +83,10 @@ int** FileHandler::openTxtFile(std::string filename) {
 
 */
 
+/*
+*	Opdracht: 25.8 file IO voor een graph.
+*/
+
 int** FileHandler::openTxtFile(std::string filename) {
 
 	std::string line;

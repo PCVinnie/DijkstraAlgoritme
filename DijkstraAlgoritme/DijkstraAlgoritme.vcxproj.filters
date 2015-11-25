@@ -24,16 +24,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FirstAlgoritme.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdAlgoritme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SecondAlgoritme.h">
+    <ClInclude Include="DijkstraAlgoritme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,16 +41,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FirstAlgoritme.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FileHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ThirdAlgoritme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SecondAlgoritme.cpp">
+    <ClCompile Include="DijkstraAlgoritme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

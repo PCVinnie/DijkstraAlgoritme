@@ -3,13 +3,13 @@
 #include <vector>
 #include <queue>
 #include <iostream>
-#include "FirstAlgoritme.h"
+#include "DijkstraAlgoritme.h"
 
-FirstAlgoritme::FirstAlgoritme() { }
+DijkstraAlgoritme::DijkstraAlgoritme() { }
 
-FirstAlgoritme::~FirstAlgoritme() { }
+DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
-int FirstAlgoritme::minDistance(int distance[], bool sptSet[]) {
+int DijkstraAlgoritme::minDistance(int distance[], bool sptSet[]) {
 
 	int min = INT_MAX;
 	int min_index = 0;
@@ -24,7 +24,7 @@ int FirstAlgoritme::minDistance(int distance[], bool sptSet[]) {
 	return min_index;
 }
 
-void FirstAlgoritme::printPriorityQueueInput(std::priority_queue<std::pair<int, int>> pq) {
+void DijkstraAlgoritme::printPriorityQueueInput(std::priority_queue<std::pair<int, int>> pq) {
 
 	std::cout << "Input:" << std::endl;
 	while (!pq.empty()) {
@@ -35,7 +35,7 @@ void FirstAlgoritme::printPriorityQueueInput(std::priority_queue<std::pair<int, 
 
 }
 
-void FirstAlgoritme::printGraphInput(int** graph) {
+void DijkstraAlgoritme::printGraphInput(int** graph) {
 
 	std::cout << "Input:" << std::endl;
 	for (int row = 0; row < V; row++) {
@@ -48,7 +48,7 @@ void FirstAlgoritme::printGraphInput(int** graph) {
 
 }
 
-void FirstAlgoritme::printOutput(int distance[]) {
+void DijkstraAlgoritme::printOutput(int distance[]) {
 
 	std::cout << "Output:" << std::endl;
 	for (int i = 0; i < V; i++) {
@@ -73,7 +73,7 @@ public:
 	}
 };
 
-void FirstAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[V + 1], int src) {
+void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[V + 1], int src) {
 
 	std::priority_queue<pp, std::vector<pp>, Prioritize> pq;
 	int u, v, w;
@@ -113,7 +113,7 @@ void FirstAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[V + 1], int 
 
 }
 
-void FirstAlgoritme::getShortestPathGraph(int** graph, int src) {
+void DijkstraAlgoritme::getShortestPathGraph(int** graph, int src, int start, int end) {
 
 	int distance[V]; // Geeft een output van de kortste pad.
 	bool sptSet[V];

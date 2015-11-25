@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
-#include "FirstAlgoritme.h"
-#include "SecondAlgoritme.h"
+#include "DijkstraAlgoritme.h"
 #include "ThirdAlgoritme.h"
 #include "FileHandler.h"
 
@@ -40,7 +39,7 @@ void priorityQueueExample() {
 	G[5].push_back(pp(4, 10));
 	G[4].push_back(pp(5, 10));
 
-	FirstAlgoritme().getShortestPathPriorityQueue(G, 0);
+	DijkstraAlgoritme().getShortestPathPriorityQueue(G, 0);
 
 }
 
@@ -61,7 +60,7 @@ void priorityQueueInput() {
 
 	}
 
-	FirstAlgoritme().getShortestPathPriorityQueue(G, 0);
+	DijkstraAlgoritme().getShortestPathPriorityQueue(G, 0);
 
 }
 
@@ -91,7 +90,7 @@ void graphExample() {
 		}
 	}
 
-	FirstAlgoritme().getShortestPathGraph(graph_ptr, 0);
+	DijkstraAlgoritme().getShortestPathGraph(graph_ptr, 0, 0, 0);
 
 }
  
@@ -118,7 +117,8 @@ int main() {
 
 		int menuNr;
 		string filename;
-		int vertices = 0;
+		int start = 0;
+		int end = 0;
 
 		cout << "Datastructuren C++ - Vincent Stout" << endl;
 		cout << "---------------------------------" << endl;
@@ -147,17 +147,20 @@ int main() {
 			secondExample();
 			break;
 		case 5:
-			FirstAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0);
+			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0, 0, 0);
 			break;
 		case 6:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
 			cin.ignore();
 			getline(std::cin, filename);
 			
-			std::cout << "Enter two vertices (example: 0 1): " << std::endl;
-			std::cin >> vertices;
+			std::cout << "Enter start vertex (example: 0): " << std::endl;
+			std::cin >> start;
+
+			std::cout << "Enter end vertex (example: 1): " << std::endl;
+			std::cin >> end;
 			
-			SecondAlgoritme().getShortestPath(FileHandler().openTxtFile(filename), 0, vertices);
+			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile(filename), 0, start, end);
 			break;
 		case 7:
 			exit(0);

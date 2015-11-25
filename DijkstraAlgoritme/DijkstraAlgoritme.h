@@ -5,19 +5,19 @@
 
 #define V 9
 
-class FirstAlgoritme {
+class DijkstraAlgoritme {
 
 public:
 	//Constructor
-	FirstAlgoritme();
+	DijkstraAlgoritme();
 
 	//Destructor
-	~FirstAlgoritme();
+	~DijkstraAlgoritme();
 
 	//Methods
 	int minDistance(int[], bool[]);
 	void getShortestPathPriorityQueue(std::vector<std::pair<int, int>> G[V + 1], int);
-	void getShortestPathGraph(int**, int);
+	void getShortestPathGraph(int**, int, int, int);
 	void printPriorityQueueInput(std::priority_queue<std::pair<int, int>>);
 	void printGraphInput(int**);
 	void printOutput(int[]);
