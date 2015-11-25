@@ -1,13 +1,10 @@
-﻿Build started 25-11-2015 20:46:55.
+﻿Build started 25-11-2015 21:04:48.
      1>Project "C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\DijkstraAlgoritme\DijkstraAlgoritme.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\DijkstraAlgoritme.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt FileHandler.cpp FirstAlgoritme.cpp
-         FirstAlgoritme.cpp
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\firstalgoritme.cpp(96): warning C4018: '<': signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\DijkstraAlgoritme.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt FileHandler.cpp
          FileHandler.cpp
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\filehandler.cpp(125): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\filehandler.cpp(127): warning C4018: '<': signed/unsigned mismatch
-         Generating Code...
+     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\filehandler.cpp(126): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\filehandler.cpp(128): warning C4018: '<': signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.lib" /MACHINE:X86 Debug\FileHandler.obj
          Debug\FirstAlgoritme.obj
@@ -20,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.25
+Time Elapsed 00:00:01.17

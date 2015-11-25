@@ -3,7 +3,7 @@ X het beschreven algoritme van Dijkstra's algoritme met priority queue uittesten
 
 X opdrachten 25.3 alternatieve implementatie met adjecency matrix
 
-- 25.8 file IO voor een graph
+X 25.8 file IO voor een graph
 
 - 25.10 alternatieve uitwerking van Dijkstra's algoritme
 

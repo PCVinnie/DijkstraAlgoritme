@@ -130,7 +130,8 @@ int** FileHandler::openTxtFile(std::string filename) {
 
 							if (asWeight == true) {
 								weight = stoi(tmp);
-								graph[r][c] = stoi(tmp);;
+								graph[r][c] = stoi(tmp);
+								graph[c][r] = stoi(tmp);
 								asWeight = false;
 								asReset = true;
 							}

@@ -40,7 +40,7 @@ void FirstAlgoritme::printGraphInput(int** graph) {
 	std::cout << "Input:" << std::endl;
 	for (int row = 0; row < V; row++) {
 		for (int column = 0; column < V; column++) {
-			std::cout << graph[row][column];
+			std::cout << graph[row][column] << " ";
 		}
 		std::cout << "" << std::endl;
 	}
