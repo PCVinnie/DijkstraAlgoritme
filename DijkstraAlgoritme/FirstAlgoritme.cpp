@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "limits.h"
+#include <vector>
+#include <queue>
 #include <iostream>
 #include "FirstAlgoritme.h"
 
@@ -7,15 +9,18 @@ FirstAlgoritme::FirstAlgoritme() { }
 
 FirstAlgoritme::~FirstAlgoritme() { }
 
-int FirstAlgoritme::minDistance(int dist[], bool sptSet[]) {
+int FirstAlgoritme::minDistance(int distance[], bool sptSet[]) {
 
-	int min = INT_MAX, min_index;
+	int min = INT_MAX;
+	int min_index = 0;
 
+	// Controlleert op de kleinste waarde in distance[] en geeft daarvan een indexnummer terug.
 	for (int v = 0; v < V; v++) {
-		if (sptSet[v] == false && dist[v] <= min) {
-			min = dist[v], min_index = v;
+		if (sptSet[v] == false && distance[v] <= min) {
+			min = distance[v], min_index = v;
 		}
 	}
+
 	return min_index;
 }
 
@@ -47,57 +52,62 @@ void FirstAlgoritme::printOutput(int distance[]) {
 
 	std::cout << "Output:" << std::endl;
 	for (int i = 0; i < V; i++) {
-		std::cout << distance[i] << std::endl;
+		std::cout << "Node: " << i << " min weight: " << distance[i] << std::endl;
 	}
 	std::cout << "" << std::endl;
 
 }
 
-class comparator {
+#define pp std::pair<int,int>
+typedef std::pair<int, int> ii;
 
+class Prioritize
+{
 public:
-	bool operator() (std::pair<int, int> &a1, std::pair<int, int> &a2) {
-		a1.second > a2.second;
+	int operator() (const std::pair<int, int>& p1, const std::pair<int, int>& p2)
+	{
+		return p1.second < p2.second;
 	}
-
 };
 
-void FirstAlgoritme::getShortestPathPriorityQueue(std::priority_queue<std::pair<int, int>> pq, int src) {
+void FirstAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[V + 1], int src) {
 
-	int distance[V];
-	bool sptSet[V];
+	std::priority_queue<pp, std::vector<pp>, Prioritize> pq;
+	int u, v, w;
+	int distance[V + 1];
 	
-	printPriorityQueueInput(pq);
-
-
-	/*
-
-	int distance[V]; // Geeft een output van de kortste pad.
-	bool sptSet[V];
-
-	printInput(graph);
-
-	// Initialiseerd alle afstanden als oneindig en zet stpSet[] op false.
+	// Initialiseerd alle afstanden als oneindig.
 	for (int i = 0; i < V; i++) {
 		distance[i] = INT_MAX;
-		sptSet[i] = false;
 	}
 
+	// De afstand van de begin vertex is altijd 0.
 	distance[src] = 0;
+	pq.push(pp(src, distance[src]));
+	
+	while (!pq.empty()) {
 
-	for (int count = 0; count < V - 1; count++) {
-		int u = minDistance(distance, sptSet);
-		sptSet[u] = true;
-		for (int v = 0; v < V; v++) {
-			if (!sptSet[v] && graph[u][v] && distance[u] != INT_MAX && distance[u] + graph[u][v] < distance[v])
-				distance[v] = distance[u] + graph[u][v];
+		u = pq.top().first;
+		pq.pop();
+
+		for (int i = 0; i < G[u].size(); i++) {
+
+			v = G[u][i].first;
+			w = G[u][i].second;
+
+			std::cout << u << " " << v << " " << w << std::endl;
+
+			if (distance[v] > distance[u] + w) {
+
+				pq.push(pp(v, distance[v] = distance[u] + w));
+
+			}
 
 		}
 	}
 
 	printOutput(distance);
 
-	*/
 }
 
 void FirstAlgoritme::getShortestPathGraph(int** graph, int src) {
@@ -113,14 +123,36 @@ void FirstAlgoritme::getShortestPathGraph(int** graph, int src) {
 		sptSet[i] = false;
 	}
 
+	// De afstand van de begin vertex is altijd 0.
 	distance[src] = 0;
 
+	// Vindt de kortste pad van alle vertices.
 	for (int count = 0; count < V - 1; count++) {
+		
+		// Geeft de minimum afstand van een set vertices.
 		int u = minDistance(distance, sptSet);
+
+		// Als de indexnummer van minDistance is bepaald, wordt de indexwaarde true in sptSet[].
 		sptSet[u] = true;
+
 		for (int v = 0; v < V; v++) {
-			if (!sptSet[v] && graph[u][v] && distance[u] != INT_MAX && distance[u] + graph[u][v] < distance[v])
-				distance[v] = distance[u] + graph[u][v];
+
+			// Controlleert of sptSet[v] waardes niet true zijn.
+			if (sptSet[v] == false) {
+
+				// Controlleert in graph[][] en distance[] geen maximale waarden wordt toegelaten.
+				if (graph[u][v] && distance[u] != INT_MAX) {
+
+					// Telt de distance en graph met elkaar op en kijkt of het kleiner is dan de huidige waardes van distance.
+					if (distance[u] + graph[u][v] < distance[v]) {
+
+						distance[v] = distance[u] + graph[u][v];
+					
+					}
+
+				}
+
+			}
 		
 		}
 	}

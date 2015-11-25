@@ -15,30 +15,87 @@ using namespace std;
 
 void priorityQueueExample() {
 
+	/*
 	priority_queue<pair<int, int>> pq;
 
-	// make_pair(vertex 1, gewicht van verbinding) 
-	// make_pair(vertex 2, gewicht van verbinding)
+	// make_pair(gewicht, van vertex) 
+	// make_pair(gewicht, naar vertex)
 
-	pq.push(make_pair(3, 3));
-	pq.push(make_pair(6, 3));
+	pq.push(make_pair(4, 0));
+	pq.push(make_pair(4, 1));
 
-	pq.push(make_pair(4, 5));
-	pq.push(make_pair(2, 5));
+	pq.push(make_pair(8, 1));
+	pq.push(make_pair(8, 2));
 
-	pq.push(make_pair(5, 6));
-	pq.push(make_pair(7, 6));
-
-	pq.push(make_pair(10, 1));
 	pq.push(make_pair(11, 1));
+	pq.push(make_pair(11, 7));
 
-	pq.push(make_pair(12, 4));
-	pq.push(make_pair(8, 4));
+	pq.push(make_pair(7, 2));
+	pq.push(make_pair(7, 3));
 
-	pq.push(make_pair(9, 2));
-	pq.push(make_pair(1, 2));
+	pq.push(make_pair(2, 2));
+	pq.push(make_pair(2, 8));
 
-	FirstAlgoritme().getShortestPathPriorityQueue(pq, 0);
+	pq.push(make_pair(4, 2));
+	pq.push(make_pair(4, 5));
+
+	pq.push(make_pair(9, 3));
+	pq.push(make_pair(9, 4));
+
+	pq.push(make_pair(14, 3));
+	pq.push(make_pair(14, 5));
+
+	pq.push(make_pair(10, 4));
+	pq.push(make_pair(10, 5));
+
+	pq.push(make_pair(2, 5));
+	pq.push(make_pair(2, 6));
+
+	pq.push(make_pair(6, 6));
+	pq.push(make_pair(6, 8));
+
+	pq.push(make_pair(1, 6));
+	pq.push(make_pair(1, 7));
+
+	pq.push(make_pair(7, 8));
+	pq.push(make_pair(7, 7));
+
+	pq.push(make_pair(8, 7));
+	pq.push(make_pair(8, 0));
+
+	*/
+
+	#define pp std::pair<int,int>
+	std::vector<pair<int, int>> G[V + 1];
+
+	G[1].push_back(pp(0, 4));
+	G[0].push_back(pp(1, 4));
+
+	G[2].push_back(pp(1, 8));
+	G[1].push_back(pp(2, 8));
+
+	FirstAlgoritme().getShortestPathPriorityQueue(G, 0);
+
+}
+
+void priorityQueueInput() {
+
+	std::vector<pair<int, int>> G[V + 1];
+	int e, u, v, w;
+
+	std::cout << "Geeft de aantal vertices op." << std::endl;
+	std::cin >> e;
+
+	for (int i = 0; i < e; i++) {
+
+		std::cout << "Geeft de waarde: van vertex, naar vertex en weight op." << std::endl;
+		std::cin >> u >> v >> w;
+		G[u].push_back(pp(v, w));
+		G[v].push_back(pp(u, w));
+
+	}
+
+	FirstAlgoritme().getShortestPathPriorityQueue(G, 0);
 
 }
 
@@ -114,15 +171,18 @@ int main() {
 			priorityQueueExample();
 			break;
 		case 2:
-			graphExample();
+			priorityQueueInput();
 			break;
 		case 3:
-			secondExample();
+			graphExample();
 			break;
 		case 4:
-			FirstAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph.txt"), 0);
+			secondExample();
 			break;
 		case 5:
+			FirstAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph.txt"), 0);
+			break;
+		case 6:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
 			cin.ignore();
 			getline(std::cin, filename);
@@ -132,7 +192,7 @@ int main() {
 			
 			SecondAlgoritme().getShortestPath(FileHandler().openTxtFile(filename), 0, vertices);
 			break;
-		case 6:
+		case 7:
 			exit(0);
 			break;
 		}

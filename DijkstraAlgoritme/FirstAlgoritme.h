@@ -16,9 +16,9 @@ public:
 
 	//Methods
 	int minDistance(int[], bool[]);
-	void getShortestPathPriorityQueue(std::priority_queue<std::pair<int, int>>, int);
+	void getShortestPathPriorityQueue(std::vector<std::pair<int, int>> G[V + 1], int);
 	void getShortestPathGraph(int**, int);
-	void printPriorityQueueInput(std::priority_queue<std::pair<int, int>> pq);
+	void printPriorityQueueInput(std::priority_queue<std::pair<int, int>>);
 	void printGraphInput(int**);
 	void printOutput(int[]);
 
