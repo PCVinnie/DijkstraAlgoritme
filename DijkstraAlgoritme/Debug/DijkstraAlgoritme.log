@@ -1,68 +1,17 @@
-﻿Build started 29-11-2015 15:35:18.
-     1>Project "C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\DijkstraAlgoritme\DijkstraAlgoritme.vcxproj" on node 2 (Build target(s)).
+﻿Build started 29-11-2015 20:47:21.
+     1>Project "C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\DijkstraAlgoritme\DijkstraAlgoritme.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\DijkstraAlgoritme.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
-         Main.cpp
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\tree.h(63): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(166): warning C4018: '<': signed/unsigned mismatch
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(151): note: while compiling class template member function 'ShortestPathTree WeightedGraph<std::string>::getShortestPath(int)'
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\main.cpp(165): note: see reference to function template instantiation 'ShortestPathTree WeightedGraph<std::string>::getShortestPath(int)' being compiled
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\main.cpp(164): note: see reference to class template instantiation 'WeightedGraph<std::string>' being compiled
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(180): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(184): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(197): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(90): warning C4018: '<': signed/unsigned mismatch
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(83): note: while compiling class template member function 'void WeightedGraph<std::string>::createAdjacencyLists(int,std::vector<WeightedEdge,std::allocator<_Ty>> &)'
-                 with
-                 [
-                     _Ty=WeightedEdge
-                 ]
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(61): note: see reference to function template instantiation 'void WeightedGraph<std::string>::createAdjacencyLists(int,std::vector<WeightedEdge,std::allocator<_Ty>> &)' being compiled
-                 with
-                 [
-                     _Ty=WeightedEdge
-                 ]
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(56): note: while compiling class template member function 'WeightedGraph<std::string>::WeightedGraph(std::vector<std::string,std::allocator<_Ty>>,std::vector<WeightedEdge,std::allocator<WeightedEdge>> &)'
-                 with
-                 [
-                     _Ty=std::string
-                 ]
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\main.cpp(164): note: see reference to function template instantiation 'WeightedGraph<std::string>::WeightedGraph(std::vector<std::string,std::allocator<_Ty>>,std::vector<WeightedEdge,std::allocator<WeightedEdge>> &)' being compiled
-                 with
-                 [
-                     _Ty=std::string
-                 ]
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(107): warning C4018: '<': signed/unsigned mismatch
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(100): note: while compiling class template member function 'void WeightedGraph<std::string>::createQueues(int,std::vector<WeightedEdge,std::allocator<_Ty>> &)'
-                 with
-                 [
-                     _Ty=WeightedEdge
-                 ]
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(64): note: see reference to function template instantiation 'void WeightedGraph<std::string>::createQueues(int,std::vector<WeightedEdge,std::allocator<_Ty>> &)' being compiled
-                 with
-                 [
-                     _Ty=WeightedEdge
-                 ]
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(111): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(141): warning C4018: '<': signed/unsigned mismatch
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(140): note: while compiling class template member function 'bool WeightedGraph<std::string>::contains(std::vector<int,std::allocator<_Ty>> &,int)'
-                 with
-                 [
-                     _Ty=int
-                 ]
-         c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\weightedgraph.h(187): note: see reference to function template instantiation 'bool WeightedGraph<std::string>::contains(std::vector<int,std::allocator<_Ty>> &,int)' being compiled
-                 with
-                 [
-                     _Ty=int
-                 ]
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\DijkstraAlgoritme.pch" /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt DijkstraAlgoritme.cpp
+         DijkstraAlgoritme.cpp
+     1>c:\users\vincent\documents\visual studio 2015\projects\dijkstraalgoritme\dijkstraalgoritme\dijkstraalgoritme.cpp(144): warning C4018: '<': signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.lib" /MACHINE:X86 Debug\FileHandler.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.lib" /MACHINE:X86 Debug\FileHandler.obj
          Debug\DijkstraAlgoritme.obj
          Debug\Main.obj
          Debug\stdafx.obj
-         DijkstraAlgoritme.vcxproj -> C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.exe
-     1>Done Building Project "C:\Users\Vincent\Documents\Visual Studio 2015\Projects\DijkstraAlgoritme\DijkstraAlgoritme\DijkstraAlgoritme.vcxproj" (Build target(s)).
+         DijkstraAlgoritme.vcxproj -> C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\Debug\DijkstraAlgoritme.exe
+     1>Done Building Project "C:\Users\Vincent\documents\visual studio 2015\Projects\DijkstraAlgoritme\DijkstraAlgoritme\DijkstraAlgoritme.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.45
+Time Elapsed 00:00:00.98

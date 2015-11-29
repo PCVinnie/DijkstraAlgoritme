@@ -149,6 +149,8 @@ bool WeightedGraph<T>::contains(vector<int> &T, int v)
 template <typename T>
 ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
 {
+	bool isInt[10];
+
 	// T stores the vertices whose path found so far
 	vector<int> T;
 	// T initially contains the sourceVertex;
@@ -210,4 +212,70 @@ ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
 	return ShortestPathTree(sourceVertex, parent, T, costs);
 }
 
+/*
+
+template<typename V>
+ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
+
+	// T stores the vertices whose path found so far
+	vector<int> T;
+
+	// 
+	bool isInt[9];
+
+	// parent[v] stores the previous vertex of v in the path
+	vector<int> parent(getSize());
+
+	parent[sourceVertex] = -1; // The parent of source is set to -1
+
+							   // cost[v] stores the cost of the path from v to the source
+	vector<double> cost(getSize());
+
+	for (unsigned i = 0; i < cost.size(); i++) {
+		cost[i] = INT_MAX; // Initial cost set to infinity
+	}
+
+	cost[sourceVertex] = 0; // Cost of source is 0
+
+							// Expand T
+	while (T.size() < getSize()) {
+
+		// Find smallest cost v in V - T 
+		int u = -1; // Vertex to be determined
+
+		double currentMinCost = INT_MAX;
+
+		for (int i = 0; i < getSize(); i++) {
+
+			if (find(T.begin(), T.end(), i) == T.end() && cost[i] < currentMinCost) {
+
+				currentMinCost = cost[i];
+				u = i;
+
+			}
+		}
+
+		if (u == -1) break;
+
+		T.push_back(u); // Add a new vertex to T
+		isInt[u] = true; // Voegt true aan isInt[u]
+
+		// Adjust cost[v] for v that is adjacent to u and v in V - T
+		for (Edge* e : neighbors[u]) {
+
+			if (find(T.begin(), T.end(), e->v) == T.end() && cost[e->v] > cost[u] + static_cast<WeightedEdge*>(e)->weight) {
+				cost[e->v] = cost[u] + static_cast<WeightedEdge*>(e)->weight;
+				parent[e->v] = u;
+			}
+		}
+	} // End of while
+
+	  // Create a ShortestPathTree
+	return ShortestPathTree(sourceVertex, parent, T, cost);
+
+}
+
+*/
+
 #endif
+

@@ -173,6 +173,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 	int cost[VRTCS]; // Geeft een output van de kortste pad.
 	int parent[VRTCS];
 	bool spt[VRTCS];
+	int size = 0;
 
 	printGraphInput(graph);
 
@@ -188,8 +189,13 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 	cost[s] = 0;
 	parent[s] = -1;
 
+	if (end > 0) 
+		size = end;
+	else 
+		size = VRTCS;
+
 	// Vindt de kortste pad van alle vertices.
-	for (int i = 0; i < VRTCS - 1; i++) {
+	for (int i = start; i < size; i++) {
 
 		// Geeft de minimum afstand van een set vertices.
 		int u = minimumDistance(cost, spt);
