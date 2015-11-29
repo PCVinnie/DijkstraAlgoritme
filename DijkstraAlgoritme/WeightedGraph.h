@@ -2,170 +2,208 @@
 #define WEIGHTEDGRAPH_H
 
 #include "Graph.h"
-#include "WeightedEdge.h" // Defined in Listing 25.1 
-#include "MST.h" // Defined in Listing 25.3
-#include "ShortestPathTree.h" // Defined in Listing 25.8 
+#include "WeightedEdge.h"
+#include "ShortestPathTree.h"
+#include <queue> // for priority_queue
 
-template<typename V>
-
-class WeightedGraph : public Graph<V> {
-
-public:
-	// Construct an empty graph 
-	WeightedGraph();
-
-	// Construct a graph from vertices and edges objects 
-	WeightedGraph(vector<V>& vertices, vector<WeightedEdge>& edges);
-
-	// Construct a graph with vertices 0, 1, ..., n-1 and
-	// edges in a vector 
-	WeightedGraph(int numberOfVertices, vector<WeightedEdge>& edges);
-
-	// Print all edges in the weighted tree 
-	void WeightedGraph<V>::printWeightedEdges();
-
-	// Add a weighted edge 
-	bool addEdge(int u, int v, double w);
-
-	// Get a minimum spanning tree rooted at vertex 0 
-	MST getMinimumSpanningTree();
-
-	// Get a minimum spanning tree rooted at a specified vertex 
-	MST getMinimumSpanningTree(int startingVertex);
-
-	// Find single-source shortest paths 
-	ShortestPathTree getShortestPath(int sourceVertex);
-
+template <class T> struct greater : binary_function <T, T, bool> {
+	bool operator() (const T& x, const T& y) const { return x>y; }
 };
 
-const int INFINITY = 2147483647;
+template <typename T>
+class WeightedGraph : public Graph<T>
+{
+public:
+	/** Construct an empty graph */
+	WeightedGraph();
 
-template<typename V>
+	/** Construct a graph from vertices and edges objects */
+	WeightedGraph(vector<T> vertices, vector<WeightedEdge> &edges);
 
-WeightedGraph<V>::WeightedGraph() { }
+	/** Construct a graph with vertices 0, 1, ..., n-1 and
+	*  edges in a vector */
+	WeightedGraph(int numberOfVertices, vector<WeightedEdge> &edges);
 
-template<typename V>
+	/** Print all edges in the weighted tree */
+	void WeightedGraph<T>::printWeightedEdges();
 
-WeightedGraph<V>::WeightedGraph(vector<V>& vertices,
+	/** Find single-source shortest paths */
+	ShortestPathTree getShortestPath(int sourceVertex);
 
-	vector<WeightedEdge>& edges) {
+private:
+	/** Priority adjacency lists on edge weights */
+	vector<priority_queue<WeightedEdge, vector<WeightedEdge>, greater<WeightedEdge> > > queues;
 
-	// Add vertices to the graph
-	for (unsigned i = 0; i < vertices.size(); i++) {
-		addVertex(vertices[i]);
+	/** Create adjacency lists as in an unweighted graph */
+	void createAdjacencyLists(int numberOfVertices, vector<WeightedEdge> &edges);
+
+	/** Create a vector of priority queues */
+	void createQueues(int numberOfVertices, vector<WeightedEdge> &edges);
+
+	/** Return true if v is in vector T */
+	bool contains(vector<int> &T, int v);
+};
+
+//const int INFINITY = 2147483647;
+
+template <typename T>
+WeightedGraph<T>::WeightedGraph()
+{
+}
+
+template <typename T>
+WeightedGraph<T>::WeightedGraph(vector<T> vertices, vector<WeightedEdge> &edges)
+{
+	// vertices is defined as protected in the Graph class
+	this->vertices = vertices;
+
+	// Create the adjacency list neighbors for the Graph class
+	createAdjacencyLists(vertices.size(), edges);
+
+	// Create the adjacency priority queues for weighted graph
+	createQueues(vertices.size(), edges);
+}
+
+template <typename T>
+WeightedGraph<T>::WeightedGraph(int numberOfVertices, vector<WeightedEdge> &edges)
+{
+	// vertices is defined as protected in the Graph class
+	for (int i = 0; i < numberOfVertices; i++)
+		vertices.push_back(i); // vertices is {0, 1, 2, ..., n-1}
+
+							   // Create the adjacency list neighbors for the Graph class
+	createAdjacencyLists(numberOfVertices, edges);
+
+	// Create the adjacency priority queues for weighted graph
+	createQueues(numberOfVertices, edges);
+}
+
+template <typename T>
+void WeightedGraph<T>::createAdjacencyLists(int numberOfVertices, vector<WeightedEdge> &edges)
+{
+	// neighbors is defined as protected in the Graph class
+	for (int i = 0; i < numberOfVertices; i++)
+	{
+		neighbors.push_back(vector<int>(0));
 	}
 
-	// Add edges to the graph
-	for (unsigned i = 0; i < edges.size(); i++) {
-		addEdge(edges[i].u, edges[i].v, edges[i].weight);
+	for (int i = 0; i < edges.size(); i++)
+	{
+		int u = edges[i].u;
+		int v = edges[i].v;
+		neighbors[u].push_back(v);
+	}
+}
+
+template <typename T>
+void WeightedGraph<T>::createQueues(int numberOfVertices, vector<WeightedEdge> &edges)
+{
+	for (int i = 0; i < numberOfVertices; i++)
+	{
+		queues.push_back(priority_queue<WeightedEdge,
+			vector<WeightedEdge>, greater<WeightedEdge> >());
 	}
 
+	for (int i = 0; i < edges.size(); i++)
+	{
+		int u = edges[i].u;
+		int v = edges[i].v;
+		int weight = edges[i].weight;
+		queues[u].push(WeightedEdge(u, v, weight));
+	}
 }
 
-template<typename V>
+template <typename T>
+void WeightedGraph<T>::printWeightedEdges()
+{
+	for (int i = 0; i < queues.size(); i++)
+	{
+		// Display all edges adjacent to vertex with index i
+		cout << "Vertex " << i << ": ";
 
-WeightedGraph<V>::WeightedGraph(int numberOfVertices,
-
-	 vector<WeightedEdge>& edges) {
-
-	 // Add vertices to the graph
-	 for (int i = 0; i < numberOfVertices; i++) {
-		 addVertex(i); // vertices is {0, 1, 2, ..., n-1}
-	 }
-
-	 // Add edges to the graph
-	 for (unsigned i = 0; i < edges.size(); i++) {
-		addEdge(edges[i].u, edges[i].v, edges[i].weight);
-	 }
-
+		// Get a copy of queues[i], so to keep original queue intact
+		priority_queue<WeightedEdge, vector<WeightedEdge>,
+			greater<WeightedEdge> > pQueue = queues[i];
+		while (!pQueue.empty())
+		{
+			WeightedEdge edge = pQueue.top();
+			pQueue.pop();
+			cout << "(" << edge.u << ", " << edge.v << ", "
+				<< edge.weight << ") ";
+		}
+		cout << endl;
+	}
 }
 
-template<typename V>
+template <typename T>
+bool WeightedGraph<T>::contains(vector<int> &T, int v)
+{
+	for (int i = 0; i < T.size(); i++)
+	{
+		if (T[i] == v) return true;
+	}
 
-void WeightedGraph<V>::printWeightedEdges() {
-
-	 for (int i = 0; i < getSize(); i++) {
-
-		 // Display all edges adjacent to vertex with index i
-		 cout << "Vertex " << getVertex(i) << "(" << i << "): ";
-
-		 // Display all weighted edges
-		 for (Edge* e : neighbors[i]) {
-			 cout << "(" << e->u << ", " << e->v << ", " << static_cast<WeightedEdge*>(e)->weight << ") ";
-		 }
-
-		 cout << endl;
-
-	 }
+	return false;
 }
 
- template<typename V>
-
-bool WeightedGraph<V>::addEdge(int u, int v, double w) {
-
-	 return createEdge(new WeightedEdge(u, v, w));
-
-} 
-
-template<typename V>
-
-ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
-
+template <typename T>
+ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
+{
 	// T stores the vertices whose path found so far
-	 vector<int> T;
+	vector<int> T;
+	// T initially contains the sourceVertex;
+	T.push_back(sourceVertex);
 
-	 // parent[v] stores the previous vertex of v in the path
-	 vector<int> parent(getSize());
+	// vertices is defined in the Graph class
+	int numberOfVertices = vertices.size();
 
-	 parent[sourceVertex] = -1; // The parent of source is set to -1
+	// parent[v] stores the previous vertex of v in the path
+	vector<int> parent(numberOfVertices);
+	parent[sourceVertex] = -1; // The parent of source is set to -1
 
-	 // cost[v] stores the cost of the path from v to the source
-	 vector<double> cost(getSize());
-
-	 for (unsigned i = 0; i < cost.size(); i++) {
-		 cost[i] = INFINITY; // Initial cost set to infinity
+							   // costs[v] stores the cost of the path from v to the source
+	vector<int> costs(numberOfVertices);
+	for (int i = 0; i < costs.size(); i++)
+	{
+		costs[i] = INFINITY; // Initial cost set to infinity
 	}
 
-	 cost[sourceVertex] = 0; // Cost of source is 0
+	costs[sourceVertex] = 0; // Cost of source is 0
 
-	 // Expand T
-		 while (T.size() < getSize()) {
+							 // Clone the queue, so as to keep the original queue intact
+	vector<priority_queue<WeightedEdge, vector<WeightedEdge>,
+		greater<WeightedEdge> > > queues = this->queues;
 
-		 // Find smallest cost v in V - T 
+	// Expand verticesFound
+	while (T.size() < numberOfVertices)
+	{
+		int v = -1; // Vertex to be determined
+		int smallestCost = INFINITY; // Set to infinity
+		for (int i = 0; i < T.size(); i++)
+		{
+			int u = T[i];
+			while (!queues[u].empty() && contains(T, queues[u].top().v))
+				queues[u].pop(); // Remove the vertex in verticesFound
 
-		 int u = -1; // Vertex to be determined
+			if (queues[u].empty())
+				continue; // Consider the next vertex in T
 
-		 double currentMinCost = INFINITY;
-
-		 for (int i = 0; i < getSize(); i++) {
-
-			 if (find(T.begin(), T.end(), i) == T.end() && cost[i] < currentMinCost) {
-
-					currentMinCost = cost[i];
-					u = i;
-
-				 }
-			 }
-
-		 if (u == -1) break;
-
-		 T.push_back(u); // Add a new vertex to T
-
-		 // Adjust cost[v] for v that is adjacent to u and v in V - T
-
-			 for (Edge* e : neighbors[u]) {
-
-			    if (find(T.begin(), T.end(), e->v) == T.end() && cost[e->v] > cost[u] + static_cast<WeightedEdge*>(e) ->weight) {
-					cost[e->v] = cost[u] + static_cast<WeightedEdge*>(e) ->weight;
-					parent[e->v] = u;
-				 }
-
+			WeightedEdge e = queues[u].top();
+			if (costs[u] + e.weight < smallestCost)
+			{
+				v = e.v;
+				smallestCost = costs[u] + e.weight;
+				// If v is added to the tree, u will be its parent
+				parent[v] = u;
 			}
-		 } // End of while
+		} // End of for
 
-	// Create a ShortestPathTree
-	return ShortestPathTree(sourceVertex, parent, T, cost);
+		T.push_back(v); // Add a new vertex to the set
+		costs[v] = smallestCost;
+	} // End of while
 
+	  // Create a ShortestPathTree
+	return ShortestPathTree(sourceVertex, parent, T, costs);
 }
 
 #endif
