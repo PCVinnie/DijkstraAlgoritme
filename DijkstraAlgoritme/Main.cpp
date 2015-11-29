@@ -163,7 +163,7 @@ void weightedGraph() {
 
 	WeightedGraph<string> graph1(vectorOfVertices, edgeVector);
 	ShortestPathTree tree = graph1.getShortestPath(5);
-	//printAllPaths<string>(tree, vertices);
+	printAllPaths<string>(tree, graph1.getVertices());
 
 }
 

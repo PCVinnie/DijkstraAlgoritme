@@ -165,7 +165,7 @@ ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
 	vector<int> costs(numberOfVertices);
 	for (int i = 0; i < costs.size(); i++)
 	{
-		costs[i] = INFINITY; // Initial cost set to infinity
+		costs[i] = INT_MAX; // Initial cost set to infinity
 	}
 
 	costs[sourceVertex] = 0; // Cost of source is 0
@@ -174,11 +174,13 @@ ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
 	vector<priority_queue<WeightedEdge, vector<WeightedEdge>,
 		greater<WeightedEdge> > > queues = this->queues;
 
+
+
 	// Expand verticesFound
 	while (T.size() < numberOfVertices)
 	{
 		int v = -1; // Vertex to be determined
-		int smallestCost = INFINITY; // Set to infinity
+		int smallestCost = INT_MAX; // Set to infinity
 		for (int i = 0; i < T.size(); i++)
 		{
 			int u = T[i];
@@ -201,6 +203,8 @@ ShortestPathTree WeightedGraph<T>::getShortestPath(int sourceVertex)
 		T.push_back(v); // Add a new vertex to the set
 		costs[v] = smallestCost;
 	} // End of while
+
+	
 
 	  // Create a ShortestPathTree
 	return ShortestPathTree(sourceVertex, parent, T, costs);
