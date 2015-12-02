@@ -1,14 +1,18 @@
 #include "stdafx.h"
 #include "limits.h"
-#include <vector>
-#include <queue>
+//#include <vector>
+//#include <queue>
 #include <iostream>
 #include "DijkstraAlgoritme.h"
+#include "WeightedEdge.h"
 
 DijkstraAlgoritme::DijkstraAlgoritme() { }
 
 DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
+template <class T> struct greater : std::binary_function <T, T, bool> {
+	bool operator() (const T& x, const T& y) const { return x>y; }
+};
 
 // Haalt de loopings weg door het te vervangen met een 0.
 int** DijkstraAlgoritme::removeLoopings(int** vertices) {
@@ -212,6 +216,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 				if (w[u][v] && cost[u] != INT_MAX) {
 
 					// Telt de distance en graph met elkaar op en kijkt of het groter is dan de huidige waardes van distance.
+					// Relaxing an Edge
 					if (cost[v] > cost[u] + w[u][v]) {
 
 						cost[v] = cost[u] + w[u][v];
@@ -234,58 +239,81 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 *	Opdracht: 25.10 alternatieve uitwerking van Dijkstra's algoritme
 */
 
-void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
+std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> > > createQueues(int** graph) {
 
-	int cost[VRTCS]; // Geeft een output van de kortste pad.
-	int parent[VRTCS];
-	bool spt[VRTCS];
+	std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> > > queues;
 
-	printGraphInput(graph);
-
-	int** w = removeParallel(removeLoopings(graph));
-
-	// Initialiseerd alle afstanden als oneindig en zet stpSet[] op false.
 	for (int i = 0; i < VRTCS; i++) {
-		cost[i] = INT_MAX;
-		spt[i] = false;
+		queues.push_back(std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> >());
 	}
 
-	// De afstand van de begin vertex is altijd 0.
-	cost[s] = 0;
-	parent[s] = -1;
-
-	// Vindt de kortste pad van alle vertices.
-	for (int i = 0; i < VRTCS - 1; i++) {
-
-		// Geeft de minimum afstand van een set vertices.
-		int u = minimumDistance(cost, spt);
-
-		// Als de indexnummer van minDistance is bepaald, wordt de indexwaarde true in sptSet[].
-		spt[u] = true;
-
-		for (int v = 0; v < VRTCS; v++) {
-
-			// Controlleert of sptSet[v] waardes false zijn.
-			if (spt[v] == false) {
-
-				// Controlleert in graph[][] en distance[] geen maximale waarden wordt toegelaten.
-				if (w[u][v] && cost[u] != INT_MAX) {
-
-					// Telt de distance en graph met elkaar op en kijkt of het groter is dan de huidige waardes van distance.
-					if (cost[v] > cost[u] + w[u][v]) {
-
-						cost[v] = cost[u] + w[u][v];
-						parent[v] = u;
-
-					}
-
-				}
-
-			}
-
+	for (int row = 0; row < VRTCS; row++) {
+		for (int column = 0; column < VRTCS; column++) {
+			if (graph[row][column] != 0)
+				queues[row].push(WeightedEdge(row, column, graph[row][column]));
 		}
 	}
 
-	printOutput(cost, parent);
+	return queues;
+
+}
+
+bool DijkstraAlgoritme::contains(std::vector<int> &T, int v)
+{
+	for (int i = 0; i < T.size(); i++)
+	{
+		if (T[i] == v) return true;
+	}
+
+	return false;
+}
+
+void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
+
+	printGraphInput(graph);
+
+	std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>,
+		greater<WeightedEdge> > > queues = createQueues(removeParallel(removeLoopings(graph)));
+
+	std::vector<int> T;
+	int parent[VRTCS];
+	int costs[VRTCS];
+
+	for (int i = 0; i < VRTCS; i++) {
+		costs[i] = INT_MAX; 
+	}
+
+	T.push_back(s);
+	parent[s] = -1;
+	costs[s] = 0; 
+
+	while (T.size() < VRTCS)
+	{
+		int v = -1;
+		int smallestCost = INT_MAX;
+
+		for (int i = 0; i < T.size(); i++)
+		{
+			int u = T[i];
+			while (!queues[u].empty() && contains(T, queues[u].top().v))
+				queues[u].pop();
+
+			if (queues[u].empty())
+				continue;
+
+			WeightedEdge e = queues[u].top();
+			if (costs[u] + e.weight < smallestCost)
+			{
+				v = e.v;
+				smallestCost = costs[u] + e.weight;
+				parent[v] = u;
+			}
+		} 
+
+		T.push_back(v);
+		costs[v] = smallestCost;
+	} 
+
+	printOutput(costs, parent);
 
 }

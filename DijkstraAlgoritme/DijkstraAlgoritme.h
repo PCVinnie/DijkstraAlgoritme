@@ -2,6 +2,7 @@
 #define DijkstraAlgoritme_H
 
 #include <queue>
+#include <vector>
 
 #define VRTCS 9
 
@@ -24,6 +25,9 @@ public:
 	void printPriorityQueueInput(std::priority_queue<std::pair<int, int>>);
 	void printGraphInput(int**);
 	void printOutput(int[], int[]);
+	bool contains(std::vector<int> &T, int v);	
+	//std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, 
+	//	greater<WeightedEdge> > > createQueues(int**);
 
 };
 
