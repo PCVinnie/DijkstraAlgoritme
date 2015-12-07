@@ -92,16 +92,14 @@ ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
 	// T stores the vertices whose path found so far
 	vector<int> T;
 
-	// 
-	//const int s = getSize();
-	//bool isInt[s];
+	bool isInt[18];
 
 	// parent[v] stores the previous vertex of v in the path
 	vector<int> parent(getSize());
 
 	parent[sourceVertex] = -1; // The parent of source is set to -1
 
-							   // cost[v] stores the cost of the path from v to the source
+	// cost[v] stores the cost of the path from v to the source
 	vector<int> cost(getSize());
 
 	for (unsigned i = 0; i < cost.size(); i++) {
@@ -110,7 +108,7 @@ ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
 
 	cost[sourceVertex] = 0; // Cost of source is 0
 
-							// Expand T
+	// Expand T
 	while (T.size() < getSize()) {
 
 		// Find smallest cost v in V - T 
@@ -120,23 +118,22 @@ ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
 
 		for (int i = 0; i < getSize(); i++) {
 
-			if (find(T.begin(), T.end(), i) == T.end() && cost[i] < currentMinCost) {
-
+			if (isInt[u] == isInt[i] && cost[i] < currentMinCost) {
 				currentMinCost = cost[i];
 				u = i;
-
 			}
+
 		}
 
 		if (u == -1) break;
 
 		T.push_back(u); // Add a new vertex to T
-		//isInt[u] = true; // Voegt true aan isInt[u]
+		isInt[u] = true; // Voegt true aan isInt[u]
 
 		// Adjust cost[v] for v that is adjacent to u and v in V - T
 		for (Edge* e : neighbors[u]) {
 
-			if (find(T.begin(), T.end(), e->v) == T.end() && cost[e->v] > cost[u] + static_cast<WeightedEdge*>(e)->weight) {
+			if (isInt[u] == true && cost[e->v] > cost[u] + static_cast<WeightedEdge*>(e)->weight) {
 				cost[e->v] = cost[u] + static_cast<WeightedEdge*>(e)->weight;
 				parent[e->v] = u;
 			}
