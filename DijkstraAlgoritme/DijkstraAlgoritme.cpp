@@ -62,13 +62,23 @@ int DijkstraAlgoritme::minimumDistance(int distance[], bool sptSet[]) {
 	return min_index;
 }
 
-void DijkstraAlgoritme::printPriorityQueueInput(std::priority_queue<std::pair<int, int>> pq) {
+void DijkstraAlgoritme::printPriorityQueueInput(std::vector<std::pair<int, int>> list[VRTCS]) {
 
 	std::cout << "Input:" << std::endl;
-	while (!pq.empty()) {
-		std::cout << pq.top().first << " " << pq.top().second << std::endl;
-		pq.pop();
+
+	for (int l = 0; l < VRTCS; l++) {
+
+		for (int i = 0; i < list[l].size(); i++) {
+
+			int v = list[l][i].first;
+			int w = list[l][i].second;
+
+			std::cout << v << " " << w << std::endl;
+
+		}
+
 	}
+
 	std::cout << "" << std::endl;
 
 }
@@ -109,10 +119,7 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 *	Het beschreven algoritme van Dijkstra's algoritme met priority queue uitwerken
 */
 
-#define pp std::pair<int,int>
-typedef std::pair<int, int> ii;
-
-class Prioritize{
+class Prioritize {
 
 public:
 	int operator() (const std::pair<int, int>& p1, const std::pair<int, int>& p2)
@@ -122,47 +129,45 @@ public:
 
 };
 
-void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[VRTCS + 1], int s) {
+void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int s) {
+	
+	printPriorityQueueInput(list);
 
-	std::priority_queue<pp, std::vector<pp>, Prioritize> pq;
-	int u, v, w;
-	int cost[VRTCS + 1];
+	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, Prioritize> queues;
+
+	int cost[VRTCS];
 	int parent[VRTCS];
 	
-	// Initialiseerd alle afstanden als oneindig.
+	int u, v, w;
+
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 	}
 
-	// De afstand van de begin vertex is altijd 0.
 	cost[s] = 0;
 	parent[s] = -1;
 
-	pq.push(pp(s, cost[s]));
+	queues.push(std::pair<int, int>(s, cost[s]));
 	
-	while (!pq.empty()) {
+	while (!queues.empty()) {
 
-		u = pq.top().first;
-		pq.pop();
+		u = queues.top().first;
+		queues.pop();
 
-		for (int i = 0; i < G[u].size(); i++) {
+		for (int i = 0; i < list[u].size(); i++) {
 
-			v = G[u][i].first;
-			w = G[u][i].second;
-
-			std::cout << u << " " << v << " " << w << std::endl;
+			v = list[u][i].first;
+			w = list[u][i].second;
 
 			if (cost[v] > cost[u] + w) {
 
-				pq.push(pp(v, cost[v] = cost[u] + w));
+				queues.push(std::pair<int, int>(v, cost[v] = cost[u] + w));
 				parent[v] = u;
 
 			}
 
 		}
 	}
-
-	std::cout << "" << std::endl;
 
 	printOutput(cost, parent);
 
@@ -174,12 +179,12 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<pp> G[VRTCS + 1
 
 void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int end) {
 
+	printGraphInput(graph);
+
 	int cost[VRTCS]; // Geeft een output van de kortste pad.
 	int parent[VRTCS];
 	bool spt[VRTCS];
 	int size = 0;
-
-	printGraphInput(graph);
 
 	int** w = removeParallel(removeLoopings(graph));
 
@@ -272,8 +277,10 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	printGraphInput(graph);
 
+	int** w = removeParallel(removeLoopings(graph));
+
 	std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>,
-		greater<WeightedEdge> > > queues = createQueues(removeParallel(removeLoopings(graph)));
+		greater<WeightedEdge> > > queues = createQueues(removeParallel(removeLoopings(w)));
 
 	std::vector<int> T;
 	int parent[VRTCS];

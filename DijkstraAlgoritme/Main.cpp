@@ -25,30 +25,30 @@ void priorityQueueExample() {
 */
 
 	#define pp std::pair<int,int>
-	std::vector<pair<int, int>> G[VRTCS + 1];
+	std::vector<pair<int, int>> list[VRTCS + 1];
 
-	G[1].push_back(pp(0, 4));
-	G[0].push_back(pp(1, 4));
+	list[1].push_back(pp(0, 4));
+	list[0].push_back(pp(1, 4));
 
-	G[2].push_back(pp(1, 8));
-	G[1].push_back(pp(2, 8));
+	list[2].push_back(pp(1, 8));
+	list[1].push_back(pp(2, 8));
 
-	G[3].push_back(pp(2, 7));
-	G[2].push_back(pp(3, 7));
+	list[3].push_back(pp(2, 7));
+	list[2].push_back(pp(3, 7));
 
-	G[4].push_back(pp(3, 9));
-	G[3].push_back(pp(4, 9));
+	list[4].push_back(pp(3, 9));
+	list[3].push_back(pp(4, 9));
 
-	G[5].push_back(pp(4, 10));
-	G[4].push_back(pp(5, 10));
+	list[5].push_back(pp(4, 10));
+	list[4].push_back(pp(5, 10));
 
-	DijkstraAlgoritme().getShortestPathPriorityQueue(G, 0);
+	DijkstraAlgoritme().getShortestPathPriorityQueue(list, 0);
 
 }
 
 void priorityQueueInput() {
 
-	std::vector<pair<int, int>> G[VRTCS + 1];
+	std::vector<pair<int, int>> list[VRTCS + 1];
 	int e, u, v, w;
 
 	std::cout << "Geeft de aantal vertices op." << std::endl;
@@ -58,12 +58,12 @@ void priorityQueueInput() {
 
 		std::cout << "Geeft de waarde: van vertex, naar vertex en weight op." << std::endl;
 		std::cin >> u >> v >> w;
-		G[u].push_back(pp(v, w));
-		G[v].push_back(pp(u, w));
+		list[u].push_back(pp(v, w));
+		list[v].push_back(pp(u, w));
 
 	}
 
-	DijkstraAlgoritme().getShortestPathPriorityQueue(G, 0);
+	DijkstraAlgoritme().getShortestPathPriorityQueue(list, 0);
 
 }
 
@@ -178,13 +178,13 @@ int main() {
 
 		cout << "Datastructuren C++ - Vincent Stout" << endl;
 		cout << "---------------------------------" << endl;
-		cout << " Type a value between 1 and 7: " << endl;
-		cout << " 1: Dijkstra priority queue template" << endl;
+		cout << " Type a value between 1 and 8: " << endl;
+		cout << " 1: Dijkstra priority queue" << endl;
 		cout << " 2: Dijkstra priority queue input" << endl;
 		cout << " 3: Dijkstra graph (25.3)" << endl;
 		cout << " 4: Dijkstra alternative" << endl;
 		cout << " 5: Load graph from file IO (25.8)" << endl;
-		cout << " 6: Load graph from file IO (25.12)" << endl;
+		cout << " 6: Load graph from file IO (25.12) input" << endl;
 		cout << " 7: WeightedGraph" << endl;
 		cout << " 8: Exit program" << endl;
 		cout << "---------------------------------" << endl;
