@@ -3,6 +3,7 @@
 //#include <vector>
 //#include <queue>
 #include <iostream>
+#include <string>
 #include "DijkstraAlgoritme.h"
 #include "WeightedEdge.h"
 
@@ -101,9 +102,9 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 	std::cout << "Output:" << std::endl;
 	for (int i = 0; i < VRTCS; i++) {
 		if (cost[i] != INT_MAX) {
-			std::cout << "Node: " << i << " min weight: " << cost[i] << std::endl;
+			std::cout << "Vertices: " << i << " min weight: " << cost[i] << std::endl;
 		} else {
-			std::cout << "Node: " << i << " min weight: -" << std::endl;
+			std::cout << "Vertices: " << i << " min weight: -" << std::endl;
 		}
 	}
 	std::cout << "" << std::endl;
@@ -111,6 +112,42 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 	for (int i = 0; i < VRTCS; i++) {
 		std::cout << "Parent: " << parent[i] << std::endl;
 	}
+	std::cout << "" << std::endl;
+
+}
+
+#define pp std::pair<int, int>
+
+void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int end) {
+
+	std::priority_queue<std::pair<int, int>>queues;
+
+	for (int i = 0; i < VRTCS; i++) {
+		queues.push(pp(cost[i], i));
+	}
+
+	std::cout << "A path from: " << start << " to " << end << ": ";
+
+	std::string tmp1 = "";
+	std::string tmp2 = "";
+
+	while (!queues.empty()) {
+
+		if (queues.top().second == 0) {
+			tmp1 = std::to_string(queues.top().second);
+		}
+		else {
+			tmp2 += std::to_string(queues.top().second);
+		}
+		queues.pop();
+	}
+
+	for (int i = 0; i < tmp1.size(); i++)
+		std::cout << tmp1[i] << " ";
+
+	for (int i = 0; i < tmp2.size(); i++)
+		std::cout << tmp2[i] << " ";
+
 	std::cout << "" << std::endl;
 
 }
@@ -177,7 +214,7 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 *	Opdracht: 25.3 alternatieve implementatie met adjecency matrix
 */
 
-void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int end) {
+void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	printGraphInput(graph);
 
@@ -195,16 +232,11 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 	}
 
 	// De afstand van de begin vertex is altijd 0.
-	cost[s] = 0;
-	parent[s] = -1;
-
-	if (end > 0) 
-		size = end;
-	else 
-		size = VRTCS;
+	cost[start] = 0;
+	parent[start] = -1;
 
 	// Vindt de kortste pad van alle vertices.
-	for (int i = start; i < size; i++) {
+	for (int i = 0; i < VRTCS - 1; i++) {
 
 		// Geeft de minimum afstand van een set vertices.
 		int u = minimumDistance(cost, spt);
@@ -229,6 +261,8 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 
 					}
 
+					if (v == end) break;
+
 				}
 
 			}
@@ -237,6 +271,8 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int s, int start, int 
 	}
 
 	printOutput(cost, parent);
+
+	printOutputBetweenVertices(cost, start, end);
 
 }
 

@@ -198,13 +198,13 @@ int main() {
 			priorityQueueInput();
 			break;
 		case 3:
-			DijkstraAlgoritme().getShortestPathGraph(graphExample(), 0, 0, 0);
+			DijkstraAlgoritme().getShortestPathGraph(graphExample(), 0, 0);
 			break;
 		case 4:
 			DijkstraAlgoritme().getAlternativeShortestPathGraph(graphExample(), 0);
 			break;
 		case 5:
-			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0, 0, 0);
+			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0, 0);
 			break;
 		case 6:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
@@ -217,7 +217,7 @@ int main() {
 			std::cout << "Enter end vertex (example: 1): " << std::endl;
 			std::cin >> end;
 			
-			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile(filename), 0, start, end);
+			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile(filename), start, end);
 			break;
 		case 7:
 			weightedGraph();
