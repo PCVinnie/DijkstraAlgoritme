@@ -27,63 +27,6 @@ std::vector<std::string> split(const std::string &s, char delim) {
 }
 
 /*
-
-int** FileHandler::openTxtFile(std::string filename) {
-
-	std::string line;
-	int column = 0;
-	int size = 0;
-	bool asSize = true;
-	bool asLine = false;
-
-	int** graph = new int*[9];
-	for (int i = 0; i < 9; ++i) {
-		graph[i] = new int[9];
-	}
-
-	std::ifstream file;
-	file.open(filename);
-	if (file.is_open()) {
-		while (getline(file, line)) {
-
-			// Controleert de grootte van de graph.
-			if (asSize == true) {
-				size = atoi(line.c_str());
-				asSize = false;
-			}
-
-			// Haalt de graph op en schrijft dit weg naar een tweedimensionale array.
-			if (asLine == true) {
-				for (int row = 0; row < split(line, ' ').size(); row++) {
-					graph[column][row] = atoi(split(line, ' ').at(row).c_str());
-				}
-
-				if (column < size) {
-					column++;
-				}
-				else {
-					column = 0;
-				}
-			}
-			asLine = true;
-
-		}
-
-		std::cout << "Bestand is ingeladen." << std::endl;
-		file.close();
-
-	}
-	else {
-		std::cout << "Er is een fout opgetreden bij het openen of lezen van het bestand.";
-	}
-
-	return graph;
-
-}
-
-*/
-
-/*
 *	Opdracht: 25.8 file IO voor een graph.
 */
 
@@ -129,29 +72,29 @@ int** FileHandler::openTxtFile(std::string filename) {
 				bool asReset = false;
 
 					// Splitst de string eerst op met het sluisteken, vervolgens wordt de uitkomst ook weer gesplitst met komma's.
-					for (int row = 0; row < split(line, '|').size(); row++) {
-						std::string tmp1 = split(line, '|').at(row).c_str();
-						for (int i = 0; i < split(tmp1, ',').size(); i++) {
-							std::string tmp = split(tmp1, ',').at(i).c_str();
+					for (int row1 = 0; row1 < split(line, '|').size(); row1++) {
+						std::string tmp1 = split(line, '|').at(row1).c_str();
+						for (int row2 = 0; row2 < split(tmp1, ',').size(); row2++) {
+							std::string tmp2 = split(tmp1, ',').at(row2).c_str();
 
 							// Stap 3: Daarna wordt de weight op de juiste positie in de graph toegewezen.
 							if (asWeight == true) {
-								weight = stoi(tmp);
+								weight = stoi(tmp2);
 								// Zorgt dat de weight op de juiste positie in de graph wordt toegewezen.
-								graph[r][c] = stoi(tmp);
-								graph[c][r] = stoi(tmp);
+								graph[r][c] = stoi(tmp2);
+								graph[c][r] = stoi(tmp2);
 								asWeight = false;
 								asReset = true;
 							}
 
 							// Stap 1: Eerst wordt de row aan toegewezen r.
 							if (r == INT_MAX) {
-								r = stoi(tmp);
+								r = stoi(tmp2);
 							}
 							else {
 								// Stap 2: Vervolgens wordt de column toegewezen c en wordt asWeight op true gezet.
 								if (c == INT_MAX) {
-									c = stoi(tmp);
+									c = stoi(tmp2);
 									asWeight = true;
 								}
 							}
@@ -178,12 +121,12 @@ int** FileHandler::openTxtFile(std::string filename) {
 
 		}
 
-		std::cout << "Bestand is ingeladen." << std::endl;
+		std::cout << "File is loaded." << std::endl;
 		file.close();
 
 	}
 	else {
-		std::cout << "Er is een fout opgetreden bij het openen of lezen van het bestand.";
+		std::cout << "An error appears by opening or reading the file.";
 	}
 
 	return graph;

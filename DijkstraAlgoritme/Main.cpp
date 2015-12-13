@@ -51,12 +51,12 @@ void priorityQueueInput() {
 	std::vector<pair<int, int>> list[VRTCS + 1];
 	int e, u, v, w;
 
-	std::cout << "Geeft de aantal vertices op." << std::endl;
+	std::cout << "Give the number of vertices." << std::endl;
 	std::cin >> e;
 
 	for (int i = 0; i < e; i++) {
 
-		std::cout << "Geeft de waarde: van vertex, naar vertex en weight op." << std::endl;
+		std::cout << "Give the value from a vertex, to vertex and weight." << std::endl;
 		std::cin >> u >> v >> w;
 		list[u].push_back(pp(v, w));
 		list[v].push_back(pp(u, w));

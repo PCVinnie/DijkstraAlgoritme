@@ -9,40 +9,59 @@ DijkstraAlgoritme::DijkstraAlgoritme() { }
 DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
 template <class T> struct greater : std::binary_function <T, T, bool> {
-	bool operator() (const T& x, const T& y) const { return x>y; }
+	bool operator() (const T& x, const T& y) const { 
+		return x > y; 
+	}
 };
 
+template <class T> struct smaller : std::binary_function <T, T, bool> {
+	bool operator() (const std::pair<T, T>& x, const std::pair<T, T>& y) const {
+		return x < y;
+	}
+};
+
+bool DijkstraAlgoritme::contains(std::vector<int> &T, int v) {
+
+	for (int i = 0; i < T.size(); i++) {
+		if (T[i] == v)
+			return true;
+	}
+
+	return false;
+
+}
+
 // Haalt de loopings weg door het te vervangen met een 0.
-int** DijkstraAlgoritme::removeLoopings(int** vertices) {
+int** DijkstraAlgoritme::removeLoopings(int** cost) {
 
 	for (int row = 0; row < VRTCS; row++) {
 		for (int column = 0; column < VRTCS; column++) {
-			if (vertices[row][column] > 0 && row == column) {
-				vertices[row][column] = 0;
+			if (cost[row][column] > 0 && row == column) {
+				cost[row][column] = 0;
 			}
 		}
 	}
 
-	return vertices;
+	return cost;
 }
 
 // Haalt de parallelle verbindingen weg door het te vervangen met de hoogste waarden.
-int** DijkstraAlgoritme::removeParallel(int** vertices) {
+int** DijkstraAlgoritme::removeParallel(int** cost) {
 
 	for (int row = 0; row < VRTCS; row++) {
 		for (int column = 0; column < VRTCS; column++) {
-			if (vertices[row][column] > 0) {
-				if (vertices[row][column] > vertices[column][row]) {
-					vertices[column][row] = vertices[row][column];
+			if (cost[row][column] > 0) {
+				if (cost[row][column] > cost[column][row]) {
+					cost[column][row] = cost[row][column];
 				}
 				else {
-					vertices[row][column] = vertices[column][row];
+					cost[row][column] = cost[column][row];
 				}
 			}
 		}
 	}
 
-	return vertices;
+	return cost;
 }
 
 // Controlleert op de kleinste waarde in distance[] en geeft daarvan een indexnummer terug.
@@ -111,14 +130,12 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 
 }
 
-#define pp std::pair<int, int>
-
 void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int end) {
 
 	std::priority_queue<std::pair<int, int>>queues;
 
 	for (int i = 0; i < VRTCS; i++) {
-		queues.push(pp(cost[i], i));
+		queues.push(std::pair<int, int>(cost[i], i));
 	}
 
 	std::cout << "A path from: " << start << " to " << end << ": ";
@@ -151,21 +168,11 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 *	Het beschreven algoritme van Dijkstra's algoritme met priority queue uitwerken
 */
 
-class Prioritize {
-
-public:
-	int operator() (const std::pair<int, int>& p1, const std::pair<int, int>& p2)
-	{
-		return p1.second < p2.second;
-	}
-
-};
-
 void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int s) {
 	
 	printPriorityQueueInput(list);
 
-	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, Prioritize> queues;
+	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, smaller<int>> queues;
 
 	int cost[VRTCS];
 	int parent[VRTCS];
@@ -218,7 +225,6 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 	int cost[VRTCS];
 	int parent[VRTCS];
 	bool spt[VRTCS];
-	int size = 0;
 
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
@@ -257,9 +263,10 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 		}
 	}
 
-	printOutput(cost, parent);
-
-	printOutputBetweenVertices(cost, start, end);
+	if (end == 0)
+		printOutput(cost, parent);
+	else
+		printOutputBetweenVertices(cost, start, end);
 
 }
 
@@ -302,16 +309,6 @@ std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighte
 
 }
 
-bool DijkstraAlgoritme::contains(std::vector<int> &T, int v)
-{
-	for (int i = 0; i < T.size(); i++) {
-		if (T[i] == v) 
-			return true;
-	}
-
-	return false;
-}
-
 void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	printGraphInput(graph);
@@ -323,15 +320,15 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	std::vector<int> T;
 	int parent[VRTCS];
-	int costs[VRTCS];
+	int cost[VRTCS];
 
 	for (int i = 0; i < VRTCS; i++) {
-		costs[i] = INT_MAX; 
+		cost[i] = INT_MAX;
 	}
 
 	T.push_back(s);
 	parent[s] = -1;
-	costs[s] = 0; 
+	cost[s] = 0;
 
 	while (T.size() < VRTCS)
 	{
@@ -341,25 +338,26 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 		for (int i = 0; i < T.size(); i++)
 		{
 			int u = T[i];
-			while (!queues[u].empty() && contains(T, queues[u].top().v))
+			while (!queues[u].empty() && contains(T, queues[u].top().v)) {
 				queues[u].pop();
+			}
 
 			if (queues[u].empty())
 				continue;
 
 			Weighted e = queues[u].top();
-			if (costs[u] + e.weight < smallestCost)
+			if (cost[u] + e.weight < smallestCost)
 			{
 				v = e.v;
-				smallestCost = costs[u] + e.weight;
+				smallestCost = cost[u] + e.weight;
 				parent[v] = u;
 			}
 		} 
 
 		T.push_back(v);
-		costs[v] = smallestCost;
+		cost[v] = smallestCost;
 	} 
 
-	printOutput(costs, parent);
+	printOutput(cost, parent);
 
 }
