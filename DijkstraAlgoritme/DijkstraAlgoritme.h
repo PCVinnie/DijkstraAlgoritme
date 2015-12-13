@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 
-#define VRTCS 5
+#define VRTCS 9
 
 class DijkstraAlgoritme {
 

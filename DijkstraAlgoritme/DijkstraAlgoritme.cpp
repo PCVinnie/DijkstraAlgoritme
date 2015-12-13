@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "limits.h"
-//#include <vector>
-//#include <queue>
 #include <iostream>
 #include <string>
 #include "DijkstraAlgoritme.h"
-#include "WeightedEdge.h"
 
 DijkstraAlgoritme::DijkstraAlgoritme() { }
 
@@ -48,12 +45,12 @@ int** DijkstraAlgoritme::removeParallel(int** vertices) {
 	return vertices;
 }
 
+// Controlleert op de kleinste waarde in distance[] en geeft daarvan een indexnummer terug.
 int DijkstraAlgoritme::minimumDistance(int distance[], bool sptSet[]) {
 
 	int min = INT_MAX;
 	int min_index = 0;
 
-	// Controlleert op de kleinste waarde in distance[] en geeft daarvan een indexnummer terug.
 	for (int v = 0; v < VRTCS; v++) {
 		if (sptSet[v] == false && distance[v] <= min) {
 			min = distance[v], min_index = v;
@@ -68,7 +65,6 @@ void DijkstraAlgoritme::printPriorityQueueInput(std::vector<std::pair<int, int>>
 	std::cout << "Input:" << std::endl;
 
 	for (int l = 0; l < VRTCS; l++) {
-
 		for (int i = 0; i < list[l].size(); i++) {
 
 			int v = list[l][i].first;
@@ -77,7 +73,6 @@ void DijkstraAlgoritme::printPriorityQueueInput(std::vector<std::pair<int, int>>
 			std::cout << v << " " << w << std::endl;
 
 		}
-
 	}
 
 	std::cout << "" << std::endl;
@@ -218,50 +213,42 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	printGraphInput(graph);
 
-	int cost[VRTCS]; // Geeft een output van de kortste pad.
+	int** g = removeParallel(removeLoopings(graph));
+
+	int cost[VRTCS];
 	int parent[VRTCS];
 	bool spt[VRTCS];
 	int size = 0;
 
-	int** w = removeParallel(removeLoopings(graph));
-
-	// Initialiseerd alle afstanden als oneindig en zet stpSet[] op false.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 		spt[i] = false;
 	}
 
-	// De afstand van de begin vertex is altijd 0.
 	cost[start] = 0;
 	parent[start] = -1;
 
-	// Vindt de kortste pad van alle vertices.
 	for (int i = 0; i < VRTCS - 1; i++) {
 
-		// Geeft de minimum afstand van een set vertices.
 		int u = minimumDistance(cost, spt);
 
-		// Als de indexnummer van minDistance is bepaald, wordt de indexwaarde true in sptSet[].
 		spt[u] = true;
 
 		for (int v = 0; v < VRTCS; v++) {
 
-			// Controlleert of sptSet[v] waardes false zijn.
 			if (spt[v] == false) {
 
-				// Controlleert in graph[][] en distance[] geen maximale waarden wordt toegelaten.
-				if (w[u][v] && cost[u] != INT_MAX) {
+				if (g[u][v] && cost[u] != INT_MAX) {
 
-					// Telt de distance en graph met elkaar op en kijkt of het groter is dan de huidige waardes van distance.
-					// Relaxing an Edge
-					if (cost[v] > cost[u] + w[u][v]) {
+					if (cost[v] > cost[u] + g[u][v]) {
 
-						cost[v] = cost[u] + w[u][v];
+						cost[v] = cost[u] + g[u][v];
 						parent[v] = u;
 
 					}
 
-					if (v == end) break;
+					if (v == end) 
+						break;
 
 				}
 
@@ -280,18 +267,34 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 *	Opdracht: 25.10 alternatieve uitwerking van Dijkstra's algoritme
 */
 
-std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> > > createQueues(int** graph) {
+class Weighted {
 
-	std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> > > queues;
+public:
+	double weight;
+	int u, v;
+
+	Weighted(int u, int v, double weight) {
+		this->weight = weight; this->u = u; this->v = v;
+	}
+
+	bool operator>(const Weighted& edge) const {
+		return (*this).weight > edge.weight;
+	}
+
+};
+
+std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> createQueues(int** graph) {
+
+	std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> queues;
 
 	for (int i = 0; i < VRTCS; i++) {
-		queues.push_back(std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater<WeightedEdge> >());
+		queues.push_back(std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted> >());
 	}
 
 	for (int row = 0; row < VRTCS; row++) {
 		for (int column = 0; column < VRTCS; column++) {
 			if (graph[row][column] != 0)
-				queues[row].push(WeightedEdge(row, column, graph[row][column]));
+				queues[row].push(Weighted(row, column, graph[row][column]));
 		}
 	}
 
@@ -301,9 +304,9 @@ std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>, greater
 
 bool DijkstraAlgoritme::contains(std::vector<int> &T, int v)
 {
-	for (int i = 0; i < T.size(); i++)
-	{
-		if (T[i] == v) return true;
+	for (int i = 0; i < T.size(); i++) {
+		if (T[i] == v) 
+			return true;
 	}
 
 	return false;
@@ -313,10 +316,10 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	printGraphInput(graph);
 
-	int** w = removeParallel(removeLoopings(graph));
+	int** g = removeParallel(removeLoopings(graph));
 
-	std::vector<std::priority_queue<WeightedEdge, std::vector<WeightedEdge>,
-		greater<WeightedEdge> > > queues = createQueues(removeParallel(removeLoopings(w)));
+	std::vector<std::priority_queue<Weighted, std::vector<Weighted>,
+		greater<Weighted> > > queues = createQueues(removeParallel(removeLoopings(g)));
 
 	std::vector<int> T;
 	int parent[VRTCS];
@@ -344,7 +347,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 			if (queues[u].empty())
 				continue;
 
-			WeightedEdge e = queues[u].top();
+			Weighted e = queues[u].top();
 			if (costs[u] + e.weight < smallestCost)
 			{
 				v = e.v;
