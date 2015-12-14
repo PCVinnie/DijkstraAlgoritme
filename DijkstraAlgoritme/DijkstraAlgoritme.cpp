@@ -31,6 +31,41 @@ bool DijkstraAlgoritme::contains(std::vector<int> &T, int v) {
 
 }
 
+class Weighted {
+
+public:
+	double weight;
+	int u, v;
+
+	Weighted(int u, int v, double weight) {
+		this->weight = weight; this->u = u; this->v = v;
+	}
+
+	bool operator>(const Weighted& edge) const {
+		return (*this).weight > edge.weight;
+	}
+
+};
+
+std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> createQueues(int** graph) {
+
+	std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> queues;
+
+	for (int i = 0; i < VRTCS; i++) {
+		queues.push_back(std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted> >());
+	}
+
+	for (int row = 0; row < VRTCS; row++) {
+		for (int column = 0; column < VRTCS; column++) {
+			if (graph[row][column] != 0)
+				queues[row].push(Weighted(row, column, graph[row][column]));
+		}
+	}
+
+	return queues;
+
+}
+
 // Haalt de loopings weg door het te vervangen met een 0.
 int** DijkstraAlgoritme::removeLoopings(int** cost) {
 
@@ -124,7 +159,11 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 	std::cout << "" << std::endl;
 
 	for (int i = 0; i < VRTCS; i++) {
-		std::cout << "Parent: " << parent[i] << std::endl;
+		if (cost[i] != INT_MAX) {
+			std::cout << "Parent: " << parent[i] << std::endl;
+		} else {
+			std::cout << "Parent: -" << std::endl;
+		}
 	}
 	std::cout << "" << std::endl;
 
@@ -181,6 +220,7 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
+		parent[i] = INT_MAX;
 	}
 
 	cost[s] = 0;
@@ -228,6 +268,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
+		parent[i] = INT_MAX;
 		spt[i] = false;
 	}
 
@@ -263,51 +304,16 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 		}
 	}
 
-	if (end == 0)
+	if (end == 0) {
 		printOutput(cost, parent);
-	else
+	} else {
 		printOutputBetweenVertices(cost, start, end);
-
+	}
 }
 
 /*
 *	Opdracht: 25.10 alternatieve uitwerking van Dijkstra's algoritme
 */
-
-class Weighted {
-
-public:
-	double weight;
-	int u, v;
-
-	Weighted(int u, int v, double weight) {
-		this->weight = weight; this->u = u; this->v = v;
-	}
-
-	bool operator>(const Weighted& edge) const {
-		return (*this).weight > edge.weight;
-	}
-
-};
-
-std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> createQueues(int** graph) {
-
-	std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> queues;
-
-	for (int i = 0; i < VRTCS; i++) {
-		queues.push_back(std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted> >());
-	}
-
-	for (int row = 0; row < VRTCS; row++) {
-		for (int column = 0; column < VRTCS; column++) {
-			if (graph[row][column] != 0)
-				queues[row].push(Weighted(row, column, graph[row][column]));
-		}
-	}
-
-	return queues;
-
-}
 
 void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
@@ -324,6 +330,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
+		parent[VRTCS] = INT_MAX;
 	}
 
 	T.push_back(s);
@@ -342,10 +349,12 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 				queues[u].pop();
 			}
 
-			if (queues[u].empty())
+			if (queues[u].empty()) {
 				continue;
+			}
 
 			Weighted e = queues[u].top();
+
 			if (cost[u] + e.weight < smallestCost)
 			{
 				v = e.v;
