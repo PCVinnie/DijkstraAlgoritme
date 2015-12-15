@@ -122,15 +122,15 @@ int** DijkstraAlgoritme::removeParallel(int** cost) {
 	return cost;
 }
 
-// Controlleert op de kleinste waarde in distance[] en geeft daarvan een indexnummer terug.
-int DijkstraAlgoritme::minimumDistance(int distance[], bool sptSet[]) {
+// Controlleert op de kleinste waarde in cost[] en geeft daarvan een indexnummer terug.
+int DijkstraAlgoritme::minDistance(int cost[], bool sptSet[]) {
 
 	int min = INT_MAX;
 	int min_index = 0;
 
 	for (int v = 0; v < VRTCS; v++) {
-		if (sptSet[v] == false && distance[v] <= min) {
-			min = distance[v], min_index = v;
+		if (sptSet[v] == false && cost[v] <= min) {
+			min = cost[v], min_index = v;
 		}
 	}
 
@@ -280,6 +280,7 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 
 /*
 *	Opdracht: 25.3 alternatieve implementatie met adjecency matrix
+*	Opdracht: 25.12
 */
 
 void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
@@ -303,7 +304,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	for (int i = 0; i < LOOP - 1; i++) {
 
-		int u = minimumDistance(cost, spt);
+		int u = minDistance(cost, spt);
 
 		spt[u] = true;
 
@@ -390,8 +391,8 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 			}
 		}
 
-		T.push_back(v);
 		cost[v] = sc;
+		T.push_back(v);
 	}
 
 	printOutput(cost, parent);

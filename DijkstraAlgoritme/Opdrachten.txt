@@ -5,8 +5,8 @@ X opdrachten 25.3 alternatieve implementatie met adjecency matrix
 
 X 25.8 file IO voor een graph
 
-- 25.10 alternatieve uitwerking van Dijkstra's algoritme
+X 25.10 alternatieve uitwerking van Dijkstra's algoritme
 
-- 25.11 alleen het gedeelte uitwerking m.b.t. getShortestPath
+X 25.11 alleen het gedeelte uitwerking m.b.t. getShortestPath
 
-- 25.12
+X 25.12

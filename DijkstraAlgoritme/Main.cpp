@@ -17,6 +17,11 @@
 
 using namespace std;
 
+/*
+*	Naam: Vincent Stout
+*	Vak: Datastructuren C++
+*/
+
 void priorityQueueExample() {
 
 	priority_queue<pair<int, int>> pq;
@@ -109,7 +114,7 @@ int** graphExample() {
 }
 
 /*
-*	Opdracht: 25.11  alleen het gedeelte uitwerking m.b.t. getShortestPath
+*	Opdracht: 25.11  alleen het gedeelte uitwerking m.b.t. getShortestPath. Zie WeightedGraph.h -> getShortestPath()!
 */
 
 template<typename T>

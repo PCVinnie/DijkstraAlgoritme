@@ -25,7 +25,7 @@ public:
 	//Methods
 	int** removeLoopings(int**);
 	int** removeParallel(int**);
-	int minimumDistance(int[], bool[]);
+	int minDistance(int[], bool[]);
 	void getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int);
 	void getShortestPathGraph(int**, int, int);
 	void getAlternativeShortestPathGraph(int**, int);
