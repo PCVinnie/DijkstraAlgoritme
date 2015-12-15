@@ -13,6 +13,8 @@
 #include <vector>
 #include <queue>
 
+#define pp std::pair<int,int>
+
 using namespace std;
 
 void priorityQueueExample() {
@@ -22,7 +24,6 @@ void priorityQueueExample() {
 	// make_pair(gewicht, van vertex) 
 	// make_pair(gewicht, naar vertex)
 
-	#define pp std::pair<int,int>
 	std::vector<pair<int, int>> list[VRTCS + 1];
 
 	list[1].push_back(pp(0, 4));
@@ -55,7 +56,7 @@ void priorityQueueExample() {
 
 void priorityQueueInput() {
 
-	std::vector<pair<int, int>> list[VRTCS + 1];
+	std::vector<pair<int, int>> list[VRTCS];
 	int e, u, v, w;
 
 	std::cout << "Give the number of vertices." << std::endl;
@@ -63,9 +64,12 @@ void priorityQueueInput() {
 
 	for (int i = 0; i < e; i++) {
 
-		std::cout << "Give the value from a vertex, to vertex and weight." << std::endl;
-		std::cin >> u >> v >> w;
-		list[u].push_back(pp(v, w));
+		std::cout << "Give the value from vertex." << std::endl;
+		std::cin >> u;
+		std::cout << "Give the value to vertex." << std::endl;
+		std::cin >> v;
+		std::cout << "Give the weight." << std::endl;
+		std::cin >> w;
 		list[v].push_back(pp(u, w));
 
 	}
