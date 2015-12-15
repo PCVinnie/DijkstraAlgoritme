@@ -34,7 +34,6 @@ int** FileHandler::openTxtFile(std::string filename) {
 
 	std::string line;
 	int column = 0;
-	int size = 0;
 	bool asSize = true;
 	bool asLine = false;
 
@@ -131,4 +130,8 @@ int** FileHandler::openTxtFile(std::string filename) {
 
 	return graph;
 
+}
+
+int FileHandler::getSize() {
+	return size;
 }

@@ -17,12 +17,10 @@ using namespace std;
 
 void priorityQueueExample() {
 
-	/*
 	priority_queue<pair<int, int>> pq;
 
 	// make_pair(gewicht, van vertex) 
 	// make_pair(gewicht, naar vertex)
-*/
 
 	#define pp std::pair<int,int>
 	std::vector<pair<int, int>> list[VRTCS + 1];
@@ -41,6 +39,15 @@ void priorityQueueExample() {
 
 	list[5].push_back(pp(4, 10));
 	list[4].push_back(pp(5, 10));
+
+	list[6].push_back(pp(5, 3));
+	list[5].push_back(pp(6, 3));
+
+	list[7].push_back(pp(6, 2));
+	list[6].push_back(pp(7, 2));
+
+	list[8].push_back(pp(7, 11));
+	list[7].push_back(pp(8, 11));
 
 	DijkstraAlgoritme().getShortestPathPriorityQueue(list, 0);
 
@@ -70,14 +77,14 @@ void priorityQueueInput() {
 int** graphExample() {
 
 	// Graph
-	int graph[9][9] = { { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
-						{ 4, 0, 8, 0, 0, 0, 0, 11, 0 },
-						{ 0, 8, 0, 7, 0, 4, 0, 0, 2 },
-						{ 0, 0, 7, 0, 9, 14, 0, 0, 0 },
-						{ 0, 0, 0, 9, 0, 10, 0, 0, 0 },
-						{ 0, 0, 4, 0, 10, 0, 2, 0, 0 },
+	int graph[9][9] = { { 0, 6, 0, 0, 0, 0, 0, 3, 0 },
+						{ 6, 0, 8, 0, 0, 0, 0, 11, 0 },
+						{ 0, 8, 0, 5, 0, 4, 0, 0, 2 },
+						{ 0, 0, 5, 0, 9, 14, 0, 0, 0 },
+						{ 0, 0, 0, 9, 0, 13, 0, 0, 0 },
+						{ 0, 0, 4, 0, 13, 0, 2, 0, 0 },
 						{ 0, 0, 0, 14, 0, 2, 0, 1, 6 },
-						{ 8, 11, 0, 0, 0, 0, 1, 0, 7 },
+						{ 3, 11, 0, 0, 0, 0, 1, 0, 7 },
 						{ 0, 0, 2, 0, 0, 0, 6, 7, 0 }
 					  };
 
@@ -175,6 +182,7 @@ int main() {
 		string filename;
 		int start = 0;
 		int end = 0;
+		FileHandler fileHandler = FileHandler();
 
 		cout << "Datastructuren C++ - Vincent Stout" << endl;
 		cout << "---------------------------------" << endl;
@@ -204,7 +212,7 @@ int main() {
 			DijkstraAlgoritme().getAlternativeShortestPathGraph(graphExample(), 0);
 			break;
 		case 5:
-			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile("graph2.txt"), 0, 0);
+			DijkstraAlgoritme(fileHandler.getSize()).getShortestPathGraph(fileHandler.openTxtFile("graph2.txt"), 0, 0);
 			break;
 		case 6:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
@@ -216,8 +224,8 @@ int main() {
 
 			std::cout << "Enter end vertex (example: 1): " << std::endl;
 			std::cin >> end;
-			
-			DijkstraAlgoritme().getShortestPathGraph(FileHandler().openTxtFile(filename), start, end);
+
+			DijkstraAlgoritme(fileHandler.getSize()).getShortestPathGraph(fileHandler.openTxtFile(filename), start, end);
 			break;
 		case 7:
 			weightedGraph();

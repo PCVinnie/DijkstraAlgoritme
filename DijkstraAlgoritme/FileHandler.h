@@ -10,8 +10,12 @@ public:
 	//Destructor
 	~FileHandler();
 
+	//Fields
+	int size = 0;
+
 	//Methods
 	int** openTxtFile(std::string);
+	int getSize();
 
 };
 

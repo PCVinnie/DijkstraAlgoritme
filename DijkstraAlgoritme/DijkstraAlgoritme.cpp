@@ -6,18 +6,30 @@
 
 DijkstraAlgoritme::DijkstraAlgoritme() { }
 
+DijkstraAlgoritme::DijkstraAlgoritme(int size) {
+
+	int *ptr;
+	ptr = (int*)(&LOOP);
+	*ptr = size;
+
+}
+
 DijkstraAlgoritme::~DijkstraAlgoritme() { }
 
 template <class T> struct greater : std::binary_function <T, T, bool> {
-	bool operator() (const T& x, const T& y) const { 
-		return x > y; 
+
+	bool operator() (const T& x, const T& y) const {
+		return x > y;
 	}
+
 };
 
 template <class T> struct smaller : std::binary_function <T, T, bool> {
-	bool operator() (const std::pair<T, T>& x, const std::pair<T, T>& y) const {
+
+	bool operator() (const T& x, const T& y) const {
 		return x < y;
 	}
+
 };
 
 bool DijkstraAlgoritme::contains(std::vector<int> &T, int v) {
@@ -31,34 +43,45 @@ bool DijkstraAlgoritme::contains(std::vector<int> &T, int v) {
 
 }
 
-class Weighted {
+class Weight {
 
 public:
-	double weight;
 	int u, v;
+	double weight;
 
-	Weighted(int u, int v, double weight) {
-		this->weight = weight; this->u = u; this->v = v;
+	Weight(int u, double weight) {
+		this->u = u;
+		this->weight = weight;
 	}
 
-	bool operator>(const Weighted& edge) const {
-		return (*this).weight > edge.weight;
+	Weight(int u, int v, double weight) {
+		this->u = u; 
+		this->v = v;
+		this->weight = weight;
+	}
+
+	bool operator>(const Weight& e) const {
+		return (*this).weight > e.weight;
+	}
+
+	bool operator<(const Weight& e) const {
+		return (*this).weight < e.weight;
 	}
 
 };
 
-std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> createQueues(int** graph) {
+std::vector<std::priority_queue<Weight, std::vector<Weight>, greater<Weight>>> createQueues(int** graph) {
 
-	std::vector<std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted>>> queues;
+	std::vector<std::priority_queue<Weight, std::vector<Weight>, greater<Weight>>> queues;
 
 	for (int i = 0; i < VRTCS; i++) {
-		queues.push_back(std::priority_queue<Weighted, std::vector<Weighted>, greater<Weighted> >());
+		queues.push_back(std::priority_queue<Weight, std::vector<Weight>, greater<Weight>>());
 	}
 
 	for (int row = 0; row < VRTCS; row++) {
 		for (int column = 0; column < VRTCS; column++) {
 			if (graph[row][column] != 0)
-				queues[row].push(Weighted(row, column, graph[row][column]));
+				queues[row].push(Weight(row, column, graph[row][column]));
 		}
 	}
 
@@ -173,11 +196,11 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 
 	std::priority_queue<std::pair<int, int>>queues;
 
-	for (int i = 0; i < VRTCS; i++) {
+	for (int i = 0; i < LOOP; i++) {
 		queues.push(std::pair<int, int>(cost[i], i));
 	}
 
-	std::cout << "A path from: " << start << " to " << end << ": ";
+	std::cout << "A path from " << start << " to " << end << ": ";
 
 	std::string tmp1 = "";
 	std::string tmp2 = "";
@@ -193,11 +216,13 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 		queues.pop();
 	}
 
-	for (int i = 0; i < tmp1.size(); i++)
+	for (int i = 0; i < tmp1.size(); i++) {
 		std::cout << tmp1[i] << " ";
+	}
 
-	for (int i = 0; i < tmp2.size(); i++)
+	for (int i = 0; i < tmp2.size(); i++) {
 		std::cout << tmp2[i] << " ";
+	}
 
 	std::cout << "" << std::endl;
 
@@ -208,14 +233,14 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 */
 
 void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int s) {
-	
+
 	printPriorityQueueInput(list);
 
-	std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, smaller<int>> queues;
+	std::priority_queue<Weight, std::vector<Weight>, smaller<Weight>> queues;
 
 	int cost[VRTCS];
 	int parent[VRTCS];
-	
+
 	int u, v, w;
 
 	for (int i = 0; i < VRTCS; i++) {
@@ -226,11 +251,11 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 	cost[s] = 0;
 	parent[s] = -1;
 
-	queues.push(std::pair<int, int>(s, cost[s]));
-	
+	queues.push(Weight(s, cost[s]));
+
 	while (!queues.empty()) {
 
-		u = queues.top().first;
+		u = queues.top().u;
 		queues.pop();
 
 		for (int i = 0; i < list[u].size(); i++) {
@@ -240,12 +265,13 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 
 			if (cost[v] > cost[u] + w) {
 
-				queues.push(std::pair<int, int>(v, cost[v] = cost[u] + w));
+				queues.push(Weight(v, cost[v] = cost[u] + w));
 				parent[v] = u;
 
 			}
 
 		}
+
 	}
 
 	printOutput(cost, parent);
@@ -275,13 +301,13 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 	cost[start] = 0;
 	parent[start] = -1;
 
-	for (int i = 0; i < VRTCS - 1; i++) {
+	for (int i = 0; i < LOOP - 1; i++) {
 
 		int u = minimumDistance(cost, spt);
 
 		spt[u] = true;
 
-		for (int v = 0; v < VRTCS; v++) {
+		for (int v = 0; v < LOOP; v++) {
 
 			if (spt[v] == false) {
 
@@ -294,8 +320,9 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 					}
 
-					if (v == end) 
+					if (v == end) {
 						break;
+					}
 
 				}
 
@@ -307,7 +334,9 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 	if (end == 0) {
 		printOutput(cost, parent);
 	} else {
+		printOutput(cost, parent);
 		printOutputBetweenVertices(cost, start, end);
+		std::cout << "" << std::endl;
 	}
 }
 
@@ -319,10 +348,8 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	printGraphInput(graph);
 
-	int** g = removeParallel(removeLoopings(graph));
-
-	std::vector<std::priority_queue<Weighted, std::vector<Weighted>,
-		greater<Weighted> > > queues = createQueues(removeParallel(removeLoopings(g)));
+	std::vector<std::priority_queue<Weight, std::vector<Weight>,
+		greater<Weight>>> queues = createQueues(removeParallel(removeLoopings(graph)));
 
 	std::vector<int> T;
 	int parent[VRTCS];
@@ -330,7 +357,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
-		parent[VRTCS] = INT_MAX;
+		parent[i] = INT_MAX;
 	}
 
 	T.push_back(s);
@@ -340,7 +367,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 	while (T.size() < VRTCS)
 	{
 		int v = -1;
-		int smallestCost = INT_MAX;
+		int sc = INT_MAX;
 
 		for (int i = 0; i < T.size(); i++)
 		{
@@ -353,19 +380,19 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 				continue;
 			}
 
-			Weighted e = queues[u].top();
+			Weight e = queues[u].top();
 
-			if (cost[u] + e.weight < smallestCost)
+			if (cost[u] + e.weight < sc)
 			{
 				v = e.v;
-				smallestCost = cost[u] + e.weight;
+				sc = cost[u] + e.weight;
 				parent[v] = u;
 			}
-		} 
+		}
 
 		T.push_back(v);
-		cost[v] = smallestCost;
-	} 
+		cost[v] = sc;
+	}
 
 	printOutput(cost, parent);
 

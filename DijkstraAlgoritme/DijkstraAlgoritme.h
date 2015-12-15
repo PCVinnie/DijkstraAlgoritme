@@ -12,8 +12,15 @@ public:
 	//Constructor
 	DijkstraAlgoritme();
 
+	//Member constructor
+	DijkstraAlgoritme(int);
+
 	//Destructor
 	~DijkstraAlgoritme();
+
+public:
+	//Fields
+	const int LOOP = 9;
 
 	//Methods
 	int** removeLoopings(int**);
