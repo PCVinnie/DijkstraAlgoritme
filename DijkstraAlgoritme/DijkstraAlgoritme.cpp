@@ -234,7 +234,9 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 
 void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int s) {
 
+	// Print de graph in terminal.
 	printPriorityQueueInput(list);
+
 
 	std::priority_queue<Weight, std::vector<Weight>, smaller<Weight>> queues;
 
@@ -285,42 +287,61 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 
 void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
+	// Print de graph in terminal.
 	printGraphInput(graph);
 
+	// Stap 1: Graph wordt gegeven als een pointer to pointer. Waarbij de loopings en parallelle lijnen worden verwijdert.
 	int** g = removeParallel(removeLoopings(graph));
 
+	// Stap 2: Er worden drie array's aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
+	// cost[VRTCS] voor het toevoegen van de vertices.
+	// parent[VRTCS] voor het toevoegen van de uitkomst voor de minimale afstand.
+	// spt[VRTCS] wordt gebruikt als controle voor het update van de shortest pad.
 	int cost[VRTCS];
 	int parent[VRTCS];
 	bool spt[VRTCS];
 
+	// Stap 3: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
+	// INT_MAX is de maximale integer waarden.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 		parent[i] = INT_MAX;
 		spt[i] = false;
 	}
 
+	// Stap 4: 0 en -1 wordt d.m.v. de start waarden aan cost en parent toegewezen.
 	cost[start] = 0;
 	parent[start] = -1;
 
+	// 
 	for (int i = 0; i < LOOP - 1; i++) {
 
+		// Stap 5: Berekent de minimale afstand.
 		int u = minDistance(cost, spt);
 
+		// Markeert de vertex waarmee de minimale afstand is berekend.
 		spt[u] = true;
 
 		for (int v = 0; v < LOOP; v++) {
 
+			// Stap 6: Update cost[v] alleen als het niet in sptSet[v] bevindt.
+			// spt[v] moet dus false zijn om te kunnen update.
 			if (spt[v] == false) {
 
+				// Controleert of de weight in de graph en de cost geen maximale interger waarden hebben.
 				if (g[u][v] && cost[u] != INT_MAX) {
 
+					// Controleert of cost[v] groter is dan cost[u] opgeteld met de weight uit de graph.
 					if (cost[v] > cost[u] + g[u][v]) {
 
+						// Stap 7: Telt cost[u] en de weight uit de graph met elkaar op en voegt dit toe aan cost[v]
 						cost[v] = cost[u] + g[u][v];
+						// Voegt de minimale afstand toe aan de parent
 						parent[v] = u;
 
 					}
 
+					// Onderbreekt de for loop als de eind vertex is bereikt.
 					if (v == end) {
 						break;
 					}
@@ -332,9 +353,12 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 		}
 	}
 
+	// Als de eind waarde gelijk is aan 0 dan wordt enkel de printOutput methode aangeroepen.
 	if (end == 0) {
+		// Print de uitkomst in terminal.
 		printOutput(cost, parent);
 	} else {
+		// Print de uitkomst in terminal.
 		printOutput(cost, parent);
 		printOutputBetweenVertices(cost, start, end);
 		std::cout << "" << std::endl;
@@ -347,46 +371,66 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
+	// Print de graph in terminal.
 	printGraphInput(graph);
 
+	// Stap 1: PriorityQueue wordt aangemaakt. Waarbij de loopings en parallelle lijnen worden verwijdert.
 	std::vector<std::priority_queue<Weight, std::vector<Weight>,
 		greater<Weight>>> queues = createQueues(removeParallel(removeLoopings(graph)));
 
+	// Stap 2: Er worden twee array's en één vector aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
+	// cost[VRTCS] voor het toevoegen van de vertices.
+	// parent[VRTCS] voor het toevoegen van de uitkomst voor de minimale afstand.
+	// spt[VRTCS] wordt gebruikt als controle voor het update van de shortest pad.
 	std::vector<int> T;
 	int parent[VRTCS];
 	int cost[VRTCS];
 
+	// Stap 3: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
+	// INT_MAX is de maximale integer waarden.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 		parent[i] = INT_MAX;
 	}
 
+	// Stap 4: 0 en -1 wordt d.m.v. de start waarden s aan cost en parent toegewezen. Ook wordt s aan de vector toegevoegd.
 	T.push_back(s);
 	parent[s] = -1;
 	cost[s] = 0;
 
+	// Zolang T kleiner is dan de constante VRTCS blijft de while lus lopen.
 	while (T.size() < VRTCS)
 	{
+		// Initialiseert v met -1 en geeft sc de maximale integer waarde.
 		int v = -1;
 		int sc = INT_MAX;
 
+		// Stap 5: Itereert over lijst T.
 		for (int i = 0; i < T.size(); i++)
 		{
 			int u = T[i];
+
+			// Als de priorityqueue niet leeg is en T bevat de zelfde waarde als het hoogste object in de queue.
+			// Dan wordt het hoogste object dat in de priorityqueue staat verwijderd.
 			while (!queues[u].empty() && contains(T, queues[u].top().v)) {
 				queues[u].pop();
 			}
 
+			// Als de priorityqueue leeg is, springt die naar het einde van de for loop.
 			if (queues[u].empty()) {
 				continue;
 			}
 
+			// Het object dat het hoogste in de priorityqueue staat wordt toegwezen aan Weight e.
 			Weight e = queues[u].top();
 
+			// Stap 6: Telt cost[u] en de weight met elkaar op en controleert of het kleiner is dan sc.
 			if (cost[u] + e.weight < sc)
 			{
 				v = e.v;
+				// Telt cost[u] en de weight met elkaar op en voegt dit toe aan sc.
 				sc = cost[u] + e.weight;
+				// Voegt de minimale afstand toe aan de parent.
 				parent[v] = u;
 			}
 		}
@@ -395,6 +439,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 		T.push_back(v);
 	}
 
+	// Print de uitkomst in terminal.
 	printOutput(cost, parent);
 
 }

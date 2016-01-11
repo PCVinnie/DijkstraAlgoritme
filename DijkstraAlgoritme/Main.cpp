@@ -61,7 +61,7 @@ void priorityQueueExample() {
 
 void priorityQueueInput() {
 
-	std::vector<pair<int, int>> list[VRTCS];
+	std::vector<pair<int, int>> list[VRTCS + 1];
 	int e, u, v, w;
 
 	std::cout << "Give the number of vertices." << std::endl;
@@ -197,13 +197,13 @@ int main() {
 		cout << "---------------------------------" << endl;
 		cout << " Type a value between 1 and 8: " << endl;
 		cout << " 1: Dijkstra priority queue" << endl;
-		cout << " 2: Dijkstra priority queue input" << endl;
-		cout << " 3: Dijkstra graph (25.3)" << endl;
-		cout << " 4: Dijkstra alternative" << endl;
-		cout << " 5: Load graph from file IO (25.8)" << endl;
-		cout << " 6: Load graph from file IO (25.12) input" << endl;
-		cout << " 7: WeightedGraph" << endl;
-		cout << " 8: Exit program" << endl;
+		//cout << " 2: Dijkstra priority queue input" << endl;
+		cout << " 2: Dijkstra graph (25.3)" << endl;
+		cout << " 3: Dijkstra alternative" << endl;
+		cout << " 4: Load graph from file IO (25.8)" << endl;
+		cout << " 5: Load graph from file IO (25.12) input" << endl;
+		cout << " 6: WeightedGraph" << endl;
+		cout << " 7: Exit program" << endl;
 		cout << "---------------------------------" << endl;
 		cin >> menuNr;
 
@@ -211,19 +211,19 @@ int main() {
 		case 1:
 			priorityQueueExample();
 			break;
+		//case 2:
+			//priorityQueueInput();
+			//break;
 		case 2:
-			priorityQueueInput();
-			break;
-		case 3:
 			DijkstraAlgoritme().getShortestPathGraph(graphExample(), 0, 0);
 			break;
-		case 4:
+		case 3:
 			DijkstraAlgoritme().getAlternativeShortestPathGraph(graphExample(), 0);
 			break;
-		case 5:
-			DijkstraAlgoritme(fileHandler.getSize()).getShortestPathGraph(fileHandler.openTxtFile("graph2.txt"), 0, 0);
+		case 4:
+			DijkstraAlgoritme(fileHandler.getSize()).getShortestPathGraph(fileHandler.openTxtFile("graph.txt"), 0, 0);
 			break;
-		case 6:
+		case 5:
 			std::cout << "Enter a file name (example: graph.txt): " << std::endl; 
 			cin.ignore();
 			getline(std::cin, filename);
@@ -236,10 +236,10 @@ int main() {
 
 			DijkstraAlgoritme(fileHandler.getSize()).getShortestPathGraph(fileHandler.openTxtFile(filename), start, end);
 			break;
-		case 7:
+		case 6:
 			weightedGraph();
 			break;
-		case 8:
+		case 7:
 			exit(0);
 			break;
 		}
