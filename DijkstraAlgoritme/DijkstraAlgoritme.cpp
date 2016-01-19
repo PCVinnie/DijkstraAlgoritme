@@ -328,13 +328,13 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 
 void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
-	// Print de graph in terminal.
+	// Stap 1: Print de graph in terminal.
 	printGraphInput(graph);
 
-	// Stap 1: Graph wordt gegeven als een pointer to pointer. Waarbij de loopings en parallelle lijnen worden verwijdert.
+	// Stap 2: Graph wordt gegeven als een pointer to pointer. Waarbij de loopings en parallelle lijnen worden verwijdert.
 	int** g = removeParallel(removeLoopings(graph));
 
-	// Stap 2: Er worden drie array's aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
+	// Stap 3: Er worden drie array's aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
 	// cost[VRTCS] voor het toevoegen van de vertices.
 	// parent[VRTCS] voor het toevoegen van de uitkomst voor de minimale afstand.
 	// spt[VRTCS] wordt gebruikt als controle voor het update van de shortest pad.
@@ -344,7 +344,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	int count = 0;
 
-	// Stap 3: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
+	// Stap 4: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
 	// INT_MAX is de maximale integer waarden.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
@@ -352,7 +352,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 		spt[i] = false;
 	}
 
-	// Stap 4: 0 en -1 wordt d.m.v. de start waarden aan cost en parent toegewezen.
+	// Stap 5: 0 en -1 wordt d.m.v. de start waarden aan cost en parent toegewezen.
 	cost[start] = 0;
 	parent[start] = -1;
 
@@ -379,29 +379,36 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 		std::cout << "--------------------------------------------------------------" << std::endl;
 		std::cout << "Nr.: " << count << std::endl;
 
-		// Stap 5: Berekent de minimale afstand en wijst de indexnummer toe aan u.
+		/*
+		 Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
+				 Als de minimale afstand is berekent, wordt op basis van het indexnummer in de spt array een true toegevoegd. 
+				 De spt array houdt bij of de minimale afstand is berekent van een bepaalde vertex. In dit geval wordt 0 overslagen.
+		 */
 		int u = minDistance(cost, spt);
 		std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
-		// Markeert de vertex waarmee de minimale afstand is berekend.
 		spt[u] = true;
 
 		for (int v = 0; v < LOOP; v++) {
 
-			// Stap 6: Update cost[v] alleen als het niet in sptSet[v] bevindt.
-			// spt[v] moet dus false zijn om te kunnen update.
+			// Stap 2: Omdat er aan index 0 van de spt array de waarde true is gegeven. Wordt er door de if statement de eerste loop overgeslagen.
 			if (spt[v] == false) {
 
-				// Controleert of de weight in de graph en de cost geen maximale interger waarden hebben.
+				// Stap 3: Controleert of de weight in de graph en de cost geen maximale interger waarden hebben.
 				if (g[u][v] && cost[u] != INT_MAX) {
 
-					// Controleert of cost[v] groter is dan cost[u] opgeteld met de weight uit de graph.
+					/*
+						Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd.
+								Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+					*/
 					if (cost[v] > cost[u] + g[u][v]) {
 						std::cout << "Stap 2: Als vertex " << v << " groter is dan " << cost[u] + g[u][v] << "(minimale afstand + weight)" << std::endl;
-						// Stap 7: Telt cost[u] en de weight uit de graph met elkaar op en voegt dit toe aan cost[v]
+
+						// Stap 5: Dan wordt de eerste waarde met het gewicht opgeteld en toegevoegd aan de cost array.
 						cost[v] = cost[u] + g[u][v];
+
 						std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan cost op index nr.: " << v << std::endl;
-						// Voegt de minimale afstand toe aan de parent
+						// Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
 						parent[v] = u;
 						std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 					}
@@ -414,7 +421,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 				}
 
 			}
-
+			// Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
 		}
 	}
 
@@ -422,14 +429,31 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	// Als de eind waarde gelijk is aan 0 dan wordt enkel de printOutput methode aangeroepen.
 	if (end == 0) {
-		// Print de uitkomst in terminal.
+		// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 		printOutput(cost, parent);
 	} else {
-		// Print de uitkomst in terminal.
+		// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 		printOutput(cost, parent);
 		printOutputBetweenVertices(cost, start, end);
 		std::cout << "" << std::endl;
 	}
+
+	/*
+
+	Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
+			Als de minimale afstand is berekent, wordt op basis van het indexnummer in de spt array een true toegevoegd.
+			De spt array houdt bij of de minimale afstand is berekent van een bepaalde vertex.
+	Stap 2: Omdat er aan index 0 van de spt array de waarde true is gegeven. Wordt er door de if statement de eerste loop overgeslagen.
+	Stap 3: Controleert of de weight in de graph en de cost geen maximale interger waarden hebben.
+	Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd.
+			Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+	Stap 5: Dan wordt de eerste waarde met het gewicht opgeteld en toegevoegd aan de cost array.
+	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
+	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+	Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
+
+	*/
+
 }
 
 /*
