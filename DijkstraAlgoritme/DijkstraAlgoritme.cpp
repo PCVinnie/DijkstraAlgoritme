@@ -234,13 +234,13 @@ void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int en
 
 void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, int>> list[VRTCS], int s) {
 
-	// Print de graph in terminal.
+	// Stap 1: Print de graph in terminal.
 	printPriorityQueueInput(list);
 
-	// Stap 1: Priority_queue wordt aangemaakt. De priority_queue sorteert op de kleinste waarde.
+	// Stap 2: De priority_queue wordt aangemaakt en sorteert op de kleinste waarde.
 	std::priority_queue<Weight, std::vector<Weight>, smaller<Weight>> queues;
 
-	// Stap 2: Er worden twee array's aangemaakt. VRTCS staat voor de aantal vertices.
+	// Stap 3: Er worden twee array's aangemaakt. VRTCS staat voor de aantal vertices.
 	// cost[VRTCS] voor het toevoegen van de vertices.
 	// parent[VRTCS] voor het toevoegen van de uitkomst voor de minimale afstand.
 	int cost[VRTCS];
@@ -249,14 +249,14 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 	int u, v, w;
 	int count = 0;
 
-	// Stap 3: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX toegewezen.
+	// Stap 4: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX toegewezen.
 	// INT_MAX is de maximale integer waarden.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 		parent[i] = INT_MAX;
 	}
 
-	// Stap 4: 0 en -1 wordt d.m.v. de start waarden s aan cost[s] en parent[s] toegewezen.
+	// Stap 5: 0 en -1 wordt d.m.v. de start waarden s aan cost[s] en parent[s] toegewezen.
 	cost[s] = 0;
 	parent[s] = -1;
 
@@ -286,38 +286,61 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 		count++;
 		std::cout << "--------------------------------------------------------------" << std::endl;
 		std::cout << "Nr.: " << count << std::endl;
-		// Haalt de minimale afstand op uit de priority_queue en wijst dit toe aan u.
+		// Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
 		u = queues.top().u;
 		std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
-		// Verwijdert het eerste element uit de priority_queue.
+		// Stap 2: Vervolgens wordt het eerste element uit de priority_queue verwijdert. 
 		queues.pop();
 
 		for (int i = 0; i < list[u].size(); i++) {
 
-			// Haalt de vertex en weight op uit de list[u][i].
+			// Stap 3: Haalt de vertex en weight op uit de list[u][i].
 			v = list[u][i].first;
 			w = list[u][i].second;
 
-			// Controleert of cost[v] groter is dan cost[u] opgeteld met de weight uit list[u][i].second.
+			/*
+				Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd.
+				Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+			*/	
 			if (cost[v] > cost[u] + w) {
 				std::cout << "Stap 2: Als vertex " << v << " groter is dan " << u + w << "(minimale afstand + weight)" << std::endl;
-				// Telt cost[u] en de weight met elkaar op en voegt dit toe aan cost[v].
+
+				/*
+					Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
+					Vervolgens wordt de uitkomst toegevoegd aan het Weight object en het Weight object aan de priority_queue.
+				*/
 				queues.push(Weight(v, cost[v] = cost[u] + w));
 				std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan cost op index nr.: " << v << std::endl;
-				// Voegt de minimale afstand toe aan de parent.
+
+				// Stap 6: Ook wordt de minimale afstand aan de parent array toegevoegd.
 				parent[v] = u;
 				std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 			}
-
+			// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
 		}
 
 	}
 
 	std::cout << "" << std::endl;
 
-	// Print de uitkomst in terminal.
+	// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 	printOutput(cost, parent);
+
+	/*
+
+		Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
+		Stap 2: Vervolgens wordt het eerste element uit de priority_queue verwijdert.
+		Stap 3: Haalt de vertex en weight op uit de list[u][i].
+		Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd.
+				Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+		Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
+				Vervolgens wordt de uitkomst toegevoegd aan het Weight object en het Weight object aan de priority_queue.
+		Stap 6: Ook wordt de minimale afstand aan de parent array toegevoegd.
+		Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
+		Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
+
+	*/
 
 }
 
@@ -421,7 +444,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 				}
 
 			}
-			// Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+			// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
 		}
 	}
 
@@ -449,7 +472,7 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 			Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 	Stap 5: Dan wordt de eerste waarde met het gewicht opgeteld en toegevoegd aan de cost array.
 	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
-	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend zijn.
 	Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 
 	*/
@@ -465,7 +488,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 	// Stap 1: Print de graph in terminal.
 	printGraphInput(graph);
 
-	// Stap 2: PriorityQueue wordt aangemaakt. Waarbij de loopings en parallelle lijnen worden verwijdert.
+	// Stap 2: De priority_queue wordt aangemaakt en sorteert op de grootste waarde. De loopings en parallelle lijnen worden hierbij verwijdert.
 	std::vector<std::priority_queue<Weight, std::vector<Weight>,
 		greater<Weight>>> queues = createQueues(removeParallel(removeLoopings(graph)));
 
@@ -562,7 +585,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 				std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 			}
 		}
-		// Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+		// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
 		cost[v] = sc;
 		T.push_back(v);
 	}
@@ -590,7 +613,7 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 	        Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 	Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
 	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
-	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend zijn.
 	Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 
 	*/
