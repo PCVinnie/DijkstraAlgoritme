@@ -296,8 +296,8 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 		for (int i = 0; i < list[u].size(); i++) {
 
 			// Haalt de vertex en weight op uit de list[u][i].
-			v = list[u][i].first; // 0
-			w = list[u][i].second; // 4
+			v = list[u][i].first;
+			w = list[u][i].second;
 
 			// Controleert of cost[v] groter is dan cost[u] opgeteld met de weight uit list[u][i].second.
 			if (cost[v] > cost[u] + w) {
@@ -438,37 +438,37 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
-	// Print de graph in terminal.
+	// Stap 1: Print de graph in terminal.
 	printGraphInput(graph);
 
-	// Stap 1: PriorityQueue wordt aangemaakt. Waarbij de loopings en parallelle lijnen worden verwijdert.
+	// Stap 2: PriorityQueue wordt aangemaakt. Waarbij de loopings en parallelle lijnen worden verwijdert.
 	std::vector<std::priority_queue<Weight, std::vector<Weight>,
 		greater<Weight>>> queues = createQueues(removeParallel(removeLoopings(graph)));
 
-	// Stap 2: Er worden twee array's en één vector aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
+	// Stap 3: Er worden twee array's en één vector aangemaakt en een constante wordt er aan toegewezen. VRTCS staat voor de aantal vertices.
+	// vector<int> T voor het tijdelijk opslaan van de vertices. 
 	// cost[VRTCS] voor het toevoegen van de vertices.
 	// parent[VRTCS] voor het toevoegen van de uitkomst voor de minimale afstand.
-	// spt[VRTCS] wordt gebruikt als controle voor het update van de shortest pad.
 	std::vector<int> T;
 	int parent[VRTCS];
 	int cost[VRTCS];
 
 	int count = 0;
 
-	// Stap 3: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
+	// Stap 4: Op basis van de grootte van de constante VRTCS, wordt aan elk element een INT_MAX aan toegewezen.
 	// INT_MAX is de maximale integer waarden.
 	for (int i = 0; i < VRTCS; i++) {
 		cost[i] = INT_MAX;
 		parent[i] = INT_MAX;
 	}
 
-	// Stap 4: 0 en -1 wordt d.m.v. de start waarden s aan cost en parent toegewezen. Ook wordt s aan de vector toegevoegd.
+	// Stap 5: 0 en -1 wordt d.m.v. de start waarden s aan cost en parent toegewezen. Ook wordt s aan de vector toegevoegd.
 	T.push_back(s);
 	parent[s] = -1;
 	cost[s] = 0;
 
 	/*
-		De opzet van stap 1 t/m 4 ziet er dus als volgt uit.
+		De opzet van stap 2 t/m 5 ziet er dus als volgt uit.
 
 		cost[s]		parent[s]		vector<int> T
 		0			-1				0
@@ -495,46 +495,80 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 		int v = -1;
 		int sc = INT_MAX;
 
-		// Stap 5: Itereert over lijst T.
 		for (int i = 0; i < T.size(); i++)
 		{
+			// Stap 1: De minimale afstand wordt geinitialiseerd met 0.
 			int u = T[i];
 			std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
-			// Als de priorityqueue niet leeg is en T bevat de zelfde waarde als het hoogste object in de queue.
-			// Dan wordt het hoogste object dat in de priorityqueue staat verwijderd.
+			/*
+				Stap 2. Vervolgens wordt er gekeken of het eerste element van de priority queue ook 0 bevat. De priority queue
+				bestaat uit het object Weight. In het object is het gewicht, de hoek en de minimale afstand opgenomen.
+				In het Weight object worden dus de volgende variablen gebruikt :
+
+				u = de minimale afstand
+				v = zijn de vertices ook wel de hoeken
+				weight = is het gewicht tussen de hoeken
+
+				De Weight objects worden door middel van de methode createQueue aan de priority queue toegevoegd.
+				Mocht een Weight uit de priority queue een vertex 0 bevatten dan wordt het eerste element met de waarden 0 uit de priority queue verwijdert.
+			*/
 			while (!queues[u].empty() && contains(T, queues[u].top().v)) {
 				queues[u].pop();
 			}
 
-			// Als de priorityqueue leeg is, springt die naar het einde van de for loop.
+			// Stap 3: Het hoogste element uit de priority queue wordt toegewezen aan het object Weight.
+			// Ook wordt bij elke lus gecontrolleerd of de priority queue niet leeg is.
 			if (queues[u].empty()) {
 				continue;
 			}
 
-			// Het object dat het hoogste in de priorityqueue staat wordt toegwezen aan Weight e.
 			Weight e = queues[u].top();
 
-			// Stap 6: Telt cost[u] en de weight met elkaar op en controleert of het kleiner is dan sc.
+			// Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd. 
+			// Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 			if (cost[u] + e.weight < sc) {
 				std::cout << "Stap 2: Als vertex " << i << " groter is dan " << cost[u] + e.weight << "(minimale afstand + weight)" << std::endl;
 				v = e.v;
-				// Telt cost[u] en de weight met elkaar op en voegt dit toe aan sc.
+				// Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
 				sc = cost[u] + e.weight;
 				std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan sc: " << sc << std::endl;
-				// Voegt de minimale afstand toe aan de parent.
+				// Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
 				parent[v] = u;
 				std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 			}
 		}
-
+		// Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
 		cost[v] = sc;
 		T.push_back(v);
 	}
 
 	std::cout << "" << std::endl;
 
-	// Print de uitkomst in terminal.
+	// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 	printOutput(cost, parent);
+
+	/*
+	
+	Stap 1: De minimale afstand wordt geinitialiseerd met 0.
+	Stap 2: Vervolgens wordt er gekeken of het eerste element van de priority queue ook 0 bevat. De priority queue
+	        bestaat uit het object Weight. In het object is het gewicht, de hoek en de minimale afstand opgenomen.
+	        In het Weight object worden dus de volgende variablen gebruikt:
+
+	        u = de minimale afstand
+	        v = zijn de vertices ook wel de hoeken
+	        weight = is het gewicht tussen de hoeken
+
+	        De Weight objects worden door middel van de methode createQueue aan de priority queue toegevoegd.
+	        Mocht een Weight uit de priority queue een vertex 0 bevatten dan wordt het eerste element met de waarden 0 uit de priority queue verwijdert.
+	Stap 3: Het hoogste element uit de priority queue wordt toegewezen aan het object Weight. Ook wordt bij elke lus gecontrolleerd of de priority queue niet leeg is.
+	Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd. 
+	        Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+	Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
+	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
+	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend is.
+	Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
+
+	*/
 
 }
