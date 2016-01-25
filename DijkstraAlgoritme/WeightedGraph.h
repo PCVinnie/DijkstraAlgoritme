@@ -89,61 +89,110 @@ bool WeightedGraph<V>::addEdge(int u, int v, double w) {
 template<typename V>
 ShortestPathTree WeightedGraph<V>::getShortestPath(int sourceVertex) {
 
-	// T stores the vertices whose path found so far
+	// Stap 1: Er worden drie vectoren en één array aangemaakt. 
+	// vector<int> T slaat de vertices op waarvan het pad is gevonden.
+	// bool isInt[] wordt gebruikt als controle voor het update van de minimale afstand.
+	// parent[v] wordt de uitkomst van de minimale afstand aan toegevoegd.
+	// cost[v] voor het toevoegen van de vertices.
 	vector<int> T;
-
 	bool isInt[18];
-
-	// parent[v] stores the previous vertex of v in the path
 	vector<int> parent(getSize());
-
-	parent[sourceVertex] = -1; // The parent of source is set to -1
-
-	// cost[v] stores the cost of the path from v to the source
 	vector<int> cost(getSize());
 
+	// Stap 2: Op basis van de grootte van cost.size(), wordt aan elk element een INT_MAX toegewezen.
+	// INT_MAX is de maximale integer waarden.
 	for (unsigned i = 0; i < cost.size(); i++) {
-		cost[i] = INT_MAX; // Initial cost set to infinity
+		cost[i] = INT_MAX;
 	}
 
-	cost[sourceVertex] = 0; // Cost of source is 0
+	// Stap 3: 0 en -1 wordt d.m.v. de start waarden sourceVertex aan cost en parent toegewezen.
+	cost[sourceVertex] = 0;
+	parent[sourceVertex] = -1;
 
-	// Expand T
+	/*
+		De opzet van stap 1 t/m 3 ziet er dus als volgt uit:
+
+		vector<int> T	bool isInt[18]	vector<int> parent	vector<int> cost
+										-1					0
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+															INT_MAX
+	
+	*/
+
+	/////////////////////////////////////////////////////////////////
+
+	// Zolang T kleiner is dan getSize() blijft de while lus lopen.
 	while (T.size() < getSize()) {
 
-		// Find smallest cost v in V - T 
-		int u = -1; // Vertex to be determined
+		// Initialiseert u met -1.
+		int u = -1;
 
+		/*
+		Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
+				Als de minimale afstand is berekent, wordt op basis van het indexnummer in de isInt array een true toegevoegd.
+				De isInt array houdt bij of de minimale afstand is berekent van een bepaalde vertex.
+		*/
 		double currentMinCost = INT_MAX;
-
 		for (int i = 0; i < getSize(); i++) {
-
 			if (isInt[u] == isInt[i] && cost[i] < currentMinCost) {
 				currentMinCost = cost[i];
 				u = i;
 			}
-
 		}
 
+		// Stap 2: Controlleert of u niet -1 is. Zo ja dan wordt de lus onderbroken.
 		if (u == -1) break;
 
-		T.push_back(u); // Add a new vertex to T
-		isInt[u] = true; // Voegt true aan isInt[u]
+		// Stap 3: Er wordt een nieuwe vertex toegevoegd aan T en aan de array isInt wordt een true toegewezen.
+		T.push_back(u);
+		isInt[u] = true;
 
-		// Adjust cost[v] for v that is adjacent to u and v in V - T
 		for (Edge* e : neighbors[u]) {
 
+			// Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd. 
+			// Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+			// Big-O-notatie: isInt[u] == true
 			if (isInt[u] == true && cost[e->v] > cost[u] + static_cast<WeightedEdge*>(e)->weight) {
+
+				// Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
 				cost[e->v] = cost[u] + static_cast<WeightedEdge*>(e)->weight;
+
+				// Stap 6: Ook wordt de minimale afstand aan de parent array toegevoegd.
 				parent[e->v] = u;
 			}
 
 		}
 
-	} // End of while
+	} 
 
-	  // Create a ShortestPathTree
+	// Stap 7: Creëert de ShortestPathTree
 	return ShortestPathTree(sourceVertex, parent, T, cost);
+
+	/*
+
+	Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
+			Als de minimale afstand is berekent, wordt op basis van het indexnummer in de isInt array een true toegevoegd.
+			De isInt array houdt bij of de minimale afstand is berekent van een bepaalde vertex.
+	Stap 2: Controlleert of u niet -1 is. Zo ja dan wordt de lus onderbroken.
+	Stap 3: Er wordt een nieuwe vertex toegevoegd aan T en aan de array isInt wordt een true toegewezen (Zie stap 1).
+	Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd.
+			Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
+	Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
+	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
+	Stap 7: Creëert de ShortestPathTree
+
+	Dus: eerst het initialiseren van de arrays en vectoren. Daarna het berekenen van de minimale afstand en tot slot het berekenen van de bron tot de vertices.
+
+	*/
 
 }
 

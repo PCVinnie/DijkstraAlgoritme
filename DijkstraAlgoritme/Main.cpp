@@ -86,13 +86,13 @@ void priorityQueueInput() {
 int** graphExample() {
 
 	// Graph
-	int graph[9][9] = { { 0, 6, 0, 0, 0, 0, 0, 3, 0 },
-						{ 6, 0, 8, 0, 0, 0, 0, 11, 0 },
+	int graph[9][9] = { { 0, 4, 0, 0, 0, 0, 0, 3, 0 },
+						{ 4, 0, 8, 0, 0, 0, 0, 11, 0 },
 						{ 0, 8, 0, 5, 0, 4, 0, 0, 2 },
-						{ 0, 0, 5, 0, 9, 14, 0, 0, 0 },
+						{ 0, 0, 5, 0, 9, 16, 0, 0, 0 },
 						{ 0, 0, 0, 9, 0, 13, 0, 0, 0 },
 						{ 0, 0, 4, 0, 13, 0, 2, 0, 0 },
-						{ 0, 0, 0, 14, 0, 2, 0, 1, 6 },
+						{ 0, 0, 0, 16, 0, 2, 0, 1, 6 },
 						{ 3, 11, 0, 0, 0, 0, 1, 0, 7 },
 						{ 0, 0, 2, 0, 0, 0, 6, 7, 0 }
 					  };
@@ -138,12 +138,10 @@ void printAllPaths(ShortestPathTree& tree, vector<T> vertices) {
 
 void weightedGraph() {
 
-	// Vertices for graph in Figure 25.1
 	std::string vertices[] = { "Seattle", "San Francisco", "Los Angeles",
 		"Denver", "Kansas City", "Chicago", "Boston", "New York",
 		"Atlanta", "Miami", "Dallas", "Houston" };
 
-	// Edge array for graph in Figure 25.1
 	int edges[][3] = {
 		{ 0, 1, 807 },{ 0, 3, 1331 },{ 0, 5, 2097 },
 		{ 1, 0, 807 },{ 1, 2, 381 },{ 1, 3, 1267 },
@@ -197,7 +195,6 @@ int main() {
 		cout << "---------------------------------" << endl;
 		cout << " Type a value between 1 and 8: " << endl;
 		cout << " 1: Dijkstra priority queue" << endl;
-		//cout << " 2: Dijkstra priority queue input" << endl;
 		cout << " 2: Dijkstra graph (25.3)" << endl;
 		cout << " 3: Dijkstra alternative" << endl;
 		cout << " 4: Load graph from file IO (25.8)" << endl;
@@ -211,9 +208,6 @@ int main() {
 		case 1:
 			priorityQueueExample();
 			break;
-		//case 2:
-			//priorityQueueInput();
-			//break;
 		case 2:
 			DijkstraAlgoritme().getShortestPathGraph(graphExample(), 0, 0);
 			break;

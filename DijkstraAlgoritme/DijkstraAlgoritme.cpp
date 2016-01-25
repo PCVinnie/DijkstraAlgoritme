@@ -70,6 +70,7 @@ public:
 
 };
 
+// Zet de graph om naar een priority_queue.
 std::vector<std::priority_queue<Weight, std::vector<Weight>, greater<Weight>>> createQueues(int** graph) {
 
 	std::vector<std::priority_queue<Weight, std::vector<Weight>, greater<Weight>>> queues;
@@ -137,6 +138,7 @@ int DijkstraAlgoritme::minDistance(int cost[], bool sptSet[]) {
 	return min_index;
 }
 
+// Print de priority_queue input in terminal.
 void DijkstraAlgoritme::printPriorityQueueInput(std::vector<std::pair<int, int>> list[VRTCS]) {
 
 	std::cout << "Input:" << std::endl;
@@ -156,6 +158,7 @@ void DijkstraAlgoritme::printPriorityQueueInput(std::vector<std::pair<int, int>>
 
 }
 
+// Print de graph input in terminal.
 void DijkstraAlgoritme::printGraphInput(int** graph) {
 
 	std::cout << "Input:" << std::endl;
@@ -169,6 +172,7 @@ void DijkstraAlgoritme::printGraphInput(int** graph) {
 
 }
 
+// Print het gewicht en de parent.
 void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 
 	std::cout << "Output:" << std::endl;
@@ -192,6 +196,7 @@ void DijkstraAlgoritme::printOutput(int cost[], int parent[]) {
 
 }
 
+// Print de minimale afstand tussen twee vertices.
 void DijkstraAlgoritme::printOutputBetweenVertices(int cost[], int start, int end) {
 
 	std::priority_queue<std::pair<int, int>>queues;
@@ -283,12 +288,8 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 	// Zolang de priority_queue niet leeg is blijft het loepen.
 	while (!queues.empty()) {
 
-		count++;
-		std::cout << "--------------------------------------------------------------" << std::endl;
-		std::cout << "Nr.: " << count << std::endl;
 		// Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
 		u = queues.top().u;
-		std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
 		// Stap 2: Vervolgens wordt het eerste element uit de priority_queue verwijdert. 
 		queues.pop();
@@ -304,25 +305,20 @@ void DijkstraAlgoritme::getShortestPathPriorityQueue(std::vector<std::pair<int, 
 				Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 			*/	
 			if (cost[v] > cost[u] + w) {
-				std::cout << "Stap 2: Als vertex " << v << " groter is dan " << u + w << "(minimale afstand + weight)" << std::endl;
 
 				/*
 					Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
 					Vervolgens wordt de uitkomst toegevoegd aan het Weight object en het Weight object aan de priority_queue.
 				*/
 				queues.push(Weight(v, cost[v] = cost[u] + w));
-				std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan cost op index nr.: " << v << std::endl;
 
 				// Stap 6: Ook wordt de minimale afstand aan de parent array toegevoegd.
 				parent[v] = u;
-				std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 			}
 			// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
 		}
 
 	}
-
-	std::cout << "" << std::endl;
 
 	// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 	printOutput(cost, parent);
@@ -398,17 +394,12 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 
 	for (int i = 0; i < LOOP - 1; i++) {
 
-		count++;
-		std::cout << "--------------------------------------------------------------" << std::endl;
-		std::cout << "Nr.: " << count << std::endl;
-
 		/*
 		 Stap 1: Berekent de minimale afstand en geeft hiervoor een indexnummer terug.
 				 Als de minimale afstand is berekent, wordt op basis van het indexnummer in de spt array een true toegevoegd. 
 				 De spt array houdt bij of de minimale afstand is berekent van een bepaalde vertex. In dit geval wordt 0 overslagen.
 		 */
 		int u = minDistance(cost, spt);
-		std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
 		spt[u] = true;
 
@@ -425,15 +416,12 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 								Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 					*/
 					if (cost[v] > cost[u] + g[u][v]) {
-						std::cout << "Stap 2: Als vertex " << v << " groter is dan " << cost[u] + g[u][v] << "(minimale afstand + weight)" << std::endl;
 
 						// Stap 5: Dan wordt de eerste waarde met het gewicht opgeteld en toegevoegd aan de cost array.
 						cost[v] = cost[u] + g[u][v];
 
-						std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan cost op index nr.: " << v << std::endl;
 						// Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
 						parent[v] = u;
-						std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 					}
 
 					// Onderbreekt de for loop als de eind vertex is bereikt.
@@ -447,8 +435,6 @@ void DijkstraAlgoritme::getShortestPathGraph(int** graph, int start, int end) {
 			// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
 		}
 	}
-
-	std::cout << "" << std::endl;
 
 	// Als de eind waarde gelijk is aan 0 dan wordt enkel de printOutput methode aangeroepen.
 	if (end == 0) {
@@ -534,9 +520,6 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 	// Zolang T kleiner is dan de constante VRTCS blijft de while lus lopen.
 	while (T.size() < VRTCS)
 	{
-		count++;
-		std::cout << "--------------------------------------------------------------" << std::endl;
-		std::cout << "Nr.: " << count << std::endl;
 
 		// Initialiseert v met -1 en geeft sc de maximale integer waarde.
 		int v = -1;
@@ -544,9 +527,8 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 		for (int i = 0; i < T.size(); i++)
 		{
-			// Stap 1: De minimale afstand wordt geinitialiseerd met 0.
+			// Stap 1: De minimale afstand wordt eerst geinitialiseerd met 0.
 			int u = T[i];
-			std::cout << "Stap 1: De minimale afstand is: " << u << std::endl;
 
 			/*
 				Stap 2. Vervolgens wordt er gekeken of het eerste element van de priority queue ook 0 bevat. De priority queue
@@ -566,23 +548,20 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 
 			// Stap 3: Het hoogste element uit de priority queue wordt toegewezen aan het object Weight.
 			// Ook wordt bij elke lus gecontrolleerd of de priority queue niet leeg is.
+			Weight e = queues[u].top();
+
 			if (queues[u].empty()) {
 				continue;
 			}
 
-			Weight e = queues[u].top();
-
 			// Stap 4: Om daad werkelijk te controlleren wat de afstand van de bron tot een vertex is moet een berekening worden uitgevoerd. 
 			// Mocht het eerste element van de cost array, opgeteld met het gewicht, kleiner zijn dan de voorgaande waarde of initialisatie waarde.
 			if (cost[u] + e.weight < sc) {
-				std::cout << "Stap 2: Als vertex " << i << " groter is dan " << cost[u] + e.weight << "(minimale afstand + weight)" << std::endl;
 				v = e.v;
 				// Stap 5: Dan wordt de eerste waarde met de weight opgeteld en toegevoegd aan de cost array.
 				sc = cost[u] + e.weight;
-				std::cout << "Stap 3: Telt de minimale afstand en weight met elkaar op, en voegt dit toe aan sc: " << sc << std::endl;
 				// Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
 				parent[v] = u;
-				std::cout << "Stap 4: Voegt de minimale afstand " << u << " aan de parent op index nr.: " << v << std::endl;
 			}
 		}
 		// Stap 7: Dit proces herhaalt zich net zolang totdat alle minimale afstanden van de bron naar bestemming bekend zijn.
@@ -590,14 +569,12 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 		T.push_back(v);
 	}
 
-	std::cout << "" << std::endl;
-
 	// Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
 	printOutput(cost, parent);
 
 	/*
 	
-	Stap 1: De minimale afstand wordt geinitialiseerd met 0.
+	Stap 1: De minimale afstand wordt eerst geinitialiseerd met 0.
 	Stap 2: Vervolgens wordt er gekeken of het eerste element van de priority queue ook 0 bevat. De priority queue
 	        bestaat uit het object Weight. In het object is het gewicht, de hoek en de minimale afstand opgenomen.
 	        In het Weight object worden dus de volgende variablen gebruikt:
@@ -615,6 +592,8 @@ void DijkstraAlgoritme::getAlternativeShortestPathGraph(int** graph, int s) {
 	Stap 6: Ook wordt de kleinste afstand aan de parent array toegevoegd.
 	Stap 7: Dit proces herhaalt zich net zolang alle minimale afstanden van de bron naar bestemming bekend zijn.
 	Stap 8: Tot slot worden de arrays geprint in de terminal door middel van de methode printOutput().
+
+	Dus: eerst het initialiseren van de arrays en vectoren. Daarna het berekenen van de minimale afstand en tot slot het berekenen van de bron tot de vertices.
 
 	*/
 
